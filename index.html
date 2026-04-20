@@ -36,6 +36,8 @@
         .table-modern td { vertical-align: middle; padding: 1rem 0.75rem; border-color: #f1f5f9; }
 
         .hidden-by-role { display: none !important; }
+        .role-demo-hide { display: none !important; }
+        .image-preview { max-width: 140px; max-height: 140px; object-fit: cover; border-radius: 0.75rem; border: 1px solid #cbd5e1; }
 
         /* Mobile Adjustments */
         @media (max-width: 768px) {
@@ -131,7 +133,7 @@
 
             <!-- Quick Stats Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                <div class="glass-card stat-card p-5 border-l-4 border-blue-500 role-admin-only">
+                <div class="glass-card stat-card p-5 border-l-4 border-blue-500 demo-like-admin">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Tổng ý kiến</p>
@@ -154,7 +156,7 @@
                     </div>
                 </div>
 
-                <div class="glass-card stat-card p-5 border-l-4 border-emerald-500 role-admin-only">
+                <div class="glass-card stat-card p-5 border-l-4 border-emerald-500 demo-like-admin">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Địa bàn sôi nổi</p>
@@ -164,7 +166,7 @@
                     </div>
                 </div>
 
-                <div class="glass-card stat-card p-5 border-l-4 border-indigo-500 role-admin-only">
+                <div class="glass-card stat-card p-5 border-l-4 border-indigo-500 demo-like-admin">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Hành động mới</p>
@@ -187,7 +189,7 @@
                         <canvas id="pieChart"></canvas>
                     </div>
                 </div>
-                <div class="glass-card p-6 role-admin-only">
+                <div class="glass-card p-6 demo-like-admin">
                     <div class="flex items-center justify-between mb-6">
                         <h5 class="font-bold text-slate-800 flex items-center gap-2">
                             <i class="fa-solid fa-chart-simple text-blue-600"></i> Ý KIẾN THEO ĐỊA BÀN
@@ -200,16 +202,16 @@
             </div>
 
             <!-- Tab Content -->
-            <div class="glass-card overflow-hidden role-admin-only">
+            <div class="glass-card overflow-hidden demo-like-admin">
                 <div class="bg-slate-50/50 p-4 border-b border-slate-200">
                     <ul class="nav nav-pills gap-2" id="dashboardTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#mau2">
+                        <li class="nav-item role-admin-only" role="presentation" id="mau2-tab-item">
+                            <button class="nav-link active" id="mau2-tab-btn" data-bs-toggle="tab" data-bs-target="#mau2">
                                 <i class="fa-solid fa-table-list mr-2"></i>Mẫu 2: Chi tiết tiếp nhận
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#mau3">
+                            <button class="nav-link" id="mau3-tab-btn" data-bs-toggle="tab" data-bs-target="#mau3">
                                 <i class="fa-solid fa-clipboard-check mr-2"></i>Mẫu 3: Tổng hợp ý kiến
                             </button>
                         </li>
@@ -217,7 +219,7 @@
                 </div>
 
                 <div class="tab-content p-0">
-                    <div class="tab-pane fade show active" id="mau2">
+                    <div class="tab-pane fade show active role-admin-only" id="mau2">
                         <div class="table-responsive max-h-[600px]">
                             <table class="table table-modern table-hover mb-0">
                                 <thead>
@@ -286,7 +288,7 @@
                 <div class="flex-1 border-t-2 border-dashed border-teal-300"></div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 role-admin-only">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 demo-like-admin">
                 <div class="glass-card stat-card p-5 border-l-4 border-teal-500">
                     <div class="flex justify-between items-start">
                         <div>
@@ -310,7 +312,7 @@
                     </div>
                 </div>
 
-                <div class="glass-card stat-card p-5 border-l-4 border-emerald-500 role-admin-only">
+                <div class="glass-card stat-card p-5 border-l-4 border-emerald-500 demo-like-admin">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Địa bàn đăng ký nhiều nhất</p>
@@ -321,7 +323,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10 role-admin-only">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10 demo-like-admin">
                 <div class="glass-card p-6">
                     <div class="flex items-center justify-between mb-6">
                         <h5 class="font-bold text-slate-800 flex items-center gap-2">
@@ -332,7 +334,7 @@
                         <canvas id="asPieChart"></canvas>
                     </div>
                 </div>
-                <div class="glass-card p-6 role-admin-only">
+                <div class="glass-card p-6 demo-like-admin">
                     <div class="flex items-center justify-between mb-6">
                         <h5 class="font-bold text-slate-800 flex items-center gap-2">
                             <i class="fa-solid fa-chart-simple text-teal-600"></i> HỒ SƠ THEO ĐỊA BÀN
@@ -359,7 +361,7 @@
                                 <th style="min-width: 220px;">Đối tượng đề nghị hỗ trợ</th>
                                 <th>Đối tượng</th>
                                 <th>Cấp tiếp nhận ý kiến</th>
-                                <th class="role-admin-only">Cột 11</th>
+                                <th>Cột 11</th>
                                 <th class="role-admin-only">Cột 12</th>
                                 <th class="role-admin-only">Cột 13</th>
                                 <th class="role-admin-only">Cột 14</th>
@@ -392,13 +394,39 @@
         function setRoleUI(role) {
             currentRole = role;
             const isAdmin = role === 'admin';
+            const isDemo = role === 'demo';
 
             document.querySelectorAll('.role-admin-only').forEach(el => {
                 el.classList.toggle('hidden-by-role', !isAdmin);
             });
 
-            document.getElementById('demo-summary').classList.toggle('hidden', isAdmin);
+            document.querySelectorAll('.demo-like-admin').forEach(el => {
+                el.classList.toggle('hidden-by-role', false);
+            });
+
+            document.getElementById('demo-summary').classList.add('hidden');
             document.getElementById('current-user-label').innerText = isAdmin ? 'Admin' : 'Demo';
+
+            const mau2TabItem = document.getElementById('mau2-tab-item');
+            const mau2Pane = document.getElementById('mau2');
+            const mau2Btn = document.getElementById('mau2-tab-btn');
+            const mau3Btn = document.getElementById('mau3-tab-btn');
+            const mau3Pane = document.getElementById('mau3');
+
+            if (isDemo) {
+                mau2TabItem.classList.add('hidden-by-role');
+                mau2Pane.classList.remove('show', 'active');
+                mau2Pane.classList.add('hidden-by-role');
+                mau3Btn.classList.add('active');
+                mau3Pane.classList.add('show', 'active');
+            } else {
+                mau2TabItem.classList.remove('hidden-by-role');
+                mau2Pane.classList.remove('hidden-by-role');
+                mau2Btn.classList.add('active');
+                mau2Pane.classList.add('show', 'active');
+                mau3Btn.classList.remove('active');
+                mau3Pane.classList.remove('show', 'active');
+            }
         }
 
         function showApp(role) {
@@ -541,11 +569,33 @@
                 });
         }
 
+        function renderAnSinhImageCell(value) {
+            const raw = (value || '').trim();
+            if (!raw) return '<span class="text-xs text-slate-400 italic">Không có ảnh</span>';
+
+            const links = raw
+                .split(/\s*[;,.\n]+\s*/)
+                .map(item => item.trim())
+                .filter(Boolean)
+                .filter(item => /^https?:\/\//i.test(item));
+
+            if (!links.length) {
+                return `<span class="text-xs text-slate-600">${raw}</span>`;
+            }
+
+            return links.map((link, index) => `
+                <a href="${link}" target="_blank" rel="noopener noreferrer" class="inline-block mr-2 mb-2">
+                    <img src="${link}" alt="Ảnh minh chứng ${index + 1}" class="image-preview" onerror="this.closest('a').outerHTML='<span class=\'text-xs text-slate-600 break-all\'>${link}</span>'">
+                </a>
+            `).join('');
+        }
+
         function renderAnSinhDashboard(data) {
             const COL_ADDRESS = 'Địa chỉ: (ghi rõ đơn vị địa phương trước khi sáp nhập. Ví dụ: Tổ 1 - phường Đồng Tiến cũ)';
             const COL_TYPE    = 'Cột 9';
             const COL_HTRO    = 'Vui lòng cung cấp thông tin: (Họ và tên người cần hỗ trợ, địa chỉ sinh sống, hoàn cảnh cụ thể....)';
             const COL_CAP_TN  = 'Cột 10';
+            const COL_11      = 'Cột 11';
 
             document.getElementById('as-stat-total').innerText = data.length;
 
@@ -605,34 +655,23 @@
                 const ward = parseWard(row[COL_ADDRESS]);
                 const col = (key) => (row[key] || '').trim();
 
-                if (currentRole === 'demo') {
-                    tb.innerHTML += `
-                        <tr>
-                            <td class="text-center font-bold text-slate-400">${i+1}</td>
-                            <td class="text-sm text-slate-600 leading-relaxed italic">"${col('Vui lòng cho biết ý kiến')}"</td>
-                            <td class="text-sm text-slate-700">${col(COL_HTRO)}</td>
-                            <td><span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-[10px] font-bold uppercase border border-teal-200">${col(COL_TYPE)}</span></td>
-                            <td class="text-xs text-slate-600 font-semibold">${col(COL_CAP_TN) || 'Đã tiếp nhận'}</td>
-                        </tr>
-                    `;
-                    return;
-                }
-
                 tb.innerHTML += `
                     <tr>
                         <td class="text-center font-bold text-slate-400">${i+1}</td>
+                        ${currentRole === 'admin' ? `
                         <td>
                             <div class="font-bold text-slate-800">${col('Họ và tên')}</div>
                             <div class="text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-location-dot mr-1"></i>${ward}</div>
-                        </td>
+                        </td>` : ''}
                         <td class="text-sm text-slate-600 leading-relaxed italic">"${col('Vui lòng cho biết ý kiến')}"</td>
                         <td class="text-sm text-slate-700">${col(COL_HTRO)}</td>
                         <td><span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-[10px] font-bold uppercase border border-teal-200">${col(COL_TYPE)}</span></td>
-                        <td class="text-xs text-slate-600">${col(COL_CAP_TN)}</td>
-                        <td class="text-xs text-slate-600">${col('Cột 11')}</td>
+                        <td class="text-xs text-slate-600">${col(COL_CAP_TN) || 'Đã tiếp nhận'}</td>
+                        <td>${renderAnSinhImageCell(col(COL_11))}</td>
+                        ${currentRole === 'admin' ? `
                         <td class="text-xs text-slate-600">${col('Cột 12')}</td>
                         <td class="text-xs text-slate-600">${col('Cột 13')}</td>
-                        <td class="text-xs text-slate-600">${col('Cột 14')}</td>
+                        <td class="text-xs text-slate-600">${col('Cột 14')}</td>` : ''}
                     </tr>
                 `;
             });
