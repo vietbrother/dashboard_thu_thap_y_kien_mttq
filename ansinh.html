@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Quản lý Ý kiến Nhân dân - MTTQ Hòa Bình</title>
+    <title>An Sinh – Xã Hội Số - MTTQ Hòa Bình</title>
     
     <!-- Frameworks & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,21 +28,17 @@
         .stat-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
         
-        .nav-pills .nav-link { color: #64748b; font-weight: 600; border-radius: 0.75rem; padding: 0.75rem 1.25rem; transition: 0.3s; border: 1px solid transparent; }
-        .nav-pills .nav-link.active { background-color: var(--primary) !important; color: white !important; box-shadow: 0 10px 15px -3px rgba(218, 37, 29, 0.3); }
-        
         .table-modern thead { background: #f1f5f9; position: sticky; top: 0; z-index: 10; }
         .table-modern th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; border: none; }
         .table-modern td { vertical-align: middle; padding: 1rem 0.75rem; border-color: #f1f5f9; }
 
         .hidden-by-role { display: none !important; }
-        .role-demo-hide { display: none !important; }
         .image-preview { max-width: 140px; max-height: 140px; object-fit: cover; border-radius: 0.75rem; border: 1px solid #cbd5e1; }
 
         /* Mobile Adjustments */
         @media (max-width: 768px) {
             .header-title { font-size: 1.1rem !important; }
-            .stat-grid { grid-template-cols: 1fr; }
+            .stat-grid { grid-template-columns: 1fr; }
             .chart-container { height: 300px !important; }
         }
     </style>
@@ -56,12 +52,6 @@
                 </div>
                 <h1 class="text-2xl font-extrabold text-slate-800">Đăng nhập hệ thống</h1>
                 <p class="text-sm text-slate-500 mt-2">Demo tài khoản truy cập dashboard MTTQ</p>
-            </div>
-
-            <div class="hidden rounded-2xl bg-slate-50 border border-slate-200 p-4 mb-5 text-sm text-slate-600">
-                <div class="font-bold text-slate-700 mb-2">Tài khoản mẫu</div>
-                <div><span class="font-semibold">Admin:</span> admin / admin</div>
-                <div><span class="font-semibold">Demo:</span> demo / demo</div>
             </div>
 
             <form id="login-form" class="space-y-4">
@@ -119,10 +109,10 @@
         <div class="bg-white border-b border-slate-200">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="flex gap-1 py-2">
-                    <a href="index.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white shadow-sm">
+                    <a href="index.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 transition">
                         <i class="fa-solid fa-comments"></i>Ý kiến nhân dân
                     </a>
-                    <a href="ansinh.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 transition">
+                    <a href="ansinh.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-teal-600 text-white shadow-sm">
                         <i class="fa-solid fa-hand-holding-heart"></i>An sinh xã hội số
                     </a>
                 </div>
@@ -145,145 +135,96 @@
                 </button>
             </div>
 
-            <!-- Quick Stats Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                <div class="glass-card stat-card p-5 border-l-4 border-blue-500 demo-like-admin">
+            <!-- AN SINH - XÃ HỘI SỐ SECTION -->
+            <div class="flex items-center gap-4 mb-8">
+                <div class="flex-1 border-t-2 border-dashed border-teal-300"></div>
+                <div class="flex items-center gap-3 px-6 py-3 bg-teal-600 text-white rounded-2xl shadow-lg">
+                    <i class="fa-solid fa-hand-holding-heart text-xl"></i>
+                    <span class="font-extrabold text-base uppercase tracking-wide">An Sinh – Xã Hội Số</span>
+                </div>
+                <div class="flex-1 border-t-2 border-dashed border-teal-300"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                <div class="glass-card stat-card p-5 border-l-4 border-teal-500">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Tổng ý kiến</p>
-                            <h3 id="stat-total" class="text-3xl font-black mt-1">0</h3>
+                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Tổng hồ sơ</p>
+                            <h3 id="as-stat-total" class="text-3xl font-black mt-1">0</h3>
                         </div>
-                        <div class="bg-blue-50 p-3 rounded-xl text-blue-500"><i class="fa-solid fa-comments text-xl"></i></div>
+                        <div class="bg-teal-50 p-3 rounded-xl text-teal-500"><i class="fa-solid fa-hand-holding-heart text-xl"></i></div>
                     </div>
-                    <div class="mt-4 flex items-center text-xs text-blue-600 font-semibold">
-                        <i class="fa-solid fa-arrow-up-right-dots mr-1"></i> Dữ liệu thực tế
+                    <div class="mt-4 flex items-center text-xs text-teal-600 font-semibold">
+                        <i class="fa-solid fa-arrow-up-right-dots mr-1"></i> An sinh – xã hội số
                     </div>
                 </div>
 
-                <div class="glass-card stat-card p-5 border-l-4 border-red-500">
+                <div class="glass-card stat-card p-5 border-l-4 border-orange-500">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Lĩnh vực có ý kiến nhiều nhất</p>
-                            <h3 id="stat-top-cat" class="text-lg font-extrabold mt-2 leading-tight">-</h3>
+                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Đối tượng đề nghị hỗ trợ</p>
+                            <h3 id="as-stat-top-type" class="text-base font-extrabold mt-2 leading-tight">-</h3>
                         </div>
-                        <div class="bg-red-50 p-3 rounded-xl text-red-500"><i class="fa-solid fa-fire-flame-curved text-xl"></i></div>
+                        <div class="bg-orange-50 p-3 rounded-xl text-orange-500"><i class="fa-solid fa-users text-xl"></i></div>
                     </div>
                 </div>
 
-                <div class="glass-card stat-card p-5 border-l-4 border-emerald-500 demo-like-admin">
+                <div class="glass-card stat-card p-5 border-l-4 border-emerald-500">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Địa bàn sôi nổi</p>
-                            <h3 id="stat-top-loc" class="text-lg font-extrabold mt-2 leading-tight">-</h3>
+                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Địa bàn đăng ký nhiều nhất</p>
+                            <h3 id="as-stat-top-loc" class="text-base font-extrabold mt-2 leading-tight">-</h3>
                         </div>
                         <div class="bg-emerald-50 p-3 rounded-xl text-emerald-500"><i class="fa-solid fa-map-location-dot text-xl"></i></div>
                     </div>
                 </div>
-
-                <div class="glass-card stat-card p-5 border-l-4 border-indigo-500 demo-like-admin">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Hành động mới</p>
-                            <h3 id="stat-last-action" class="text-sm font-extrabold mt-2 leading-tight">Hài lòng & Kiến nghị</h3>
-                        </div>
-                        <div class="bg-indigo-50 p-3 rounded-xl text-indigo-500"><i class="fa-solid fa-user-pen text-xl"></i></div>
-                    </div>
-                </div>
             </div>
 
-            <!-- Charts Row -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
                 <div class="glass-card p-6">
                     <div class="flex items-center justify-between mb-6">
                         <h5 class="font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-chart-pie text-red-600"></i> PHÂN LOẠI LĨNH VỰC
+                            <i class="fa-solid fa-chart-pie text-teal-600"></i> PHÂN LOẠI ĐỐI TƯỢNG
                         </h5>
                     </div>
                     <div class="chart-container h-[350px] relative">
-                        <canvas id="pieChart"></canvas>
+                        <canvas id="asPieChart"></canvas>
                     </div>
                 </div>
-                <div class="glass-card p-6 demo-like-admin">
+                <div class="glass-card p-6">
                     <div class="flex items-center justify-between mb-6">
                         <h5 class="font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-chart-simple text-blue-600"></i> Ý KIẾN THEO ĐỊA BÀN
+                            <i class="fa-solid fa-chart-simple text-teal-600"></i> HỒ SƠ THEO ĐỊA BÀN
                         </h5>
                     </div>
                     <div class="chart-container h-[350px] relative">
-                        <canvas id="barChart"></canvas>
+                        <canvas id="asBarChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab Content -->
-            <div class="glass-card overflow-hidden demo-like-admin">
-                <div class="bg-slate-50/50 p-4 border-b border-slate-200">
-                    <ul class="nav nav-pills gap-2" id="dashboardTab" role="tablist">
-                        <li class="nav-item role-admin-only" role="presentation" id="mau2-tab-item">
-                            <button class="nav-link active" id="mau2-tab-btn" data-bs-toggle="tab" data-bs-target="#mau2">
-                                <i class="fa-solid fa-table-list mr-2"></i>Mẫu 2: Chi tiết tiếp nhận
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="mau3-tab-btn" data-bs-toggle="tab" data-bs-target="#mau3">
-                                <i class="fa-solid fa-clipboard-check mr-2"></i>Mẫu 3: Tổng hợp ý kiến
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="tab-content p-0">
-                    <div class="tab-pane fade show active role-admin-only" id="mau2">
-                        <div class="table-responsive max-h-[600px]">
-                            <table class="table table-modern table-hover mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center px-4">STT</th>
-                                        <th>Thông tin người dân</th>
-                                        <th>Lĩnh vực</th>
-                                        <th style="min-width: 300px;">Nội dung ý kiến</th>
-                                        <th>Kết quả/Phản hồi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbody-mau2"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade" id="mau3">
-                        <div class="table-responsive max-h-[600px]">
-                            <table class="table table-bordered table-modern mb-0">
-                                <thead class="bg-slate-800 text-white">
-                                    <tr>
-                                        <th class="text-white text-center">STT</th>
-                                        <th class="text-white">Nội dung ý kiến tiêu biểu</th>
-                                        <th class="text-white text-center">Địa bàn (Phường cũ)</th>
-                                        <th class="text-white">Kiến nghị của MTTQ</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbody-mau3"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="demo-summary" class="glass-card overflow-hidden hidden">
-                <div class="bg-slate-50/50 p-4 border-b border-slate-200">
-                    <h5 class="font-bold text-slate-800 flex items-center gap-2 mb-0">
-                        <i class="fa-solid fa-table-list text-red-600"></i> Dữ liệu theo lĩnh vực
-                    </h5>
+            <div class="glass-card overflow-hidden">
+                <div class="bg-teal-50 p-4 border-b border-teal-200 flex items-center gap-2">
+                    <i class="fa-solid fa-table-list text-teal-600"></i>
+                    <span class="font-bold text-teal-800 uppercase text-sm tracking-wide">Chi tiết hồ sơ An Sinh – Xã Hội Số</span>
                 </div>
                 <div class="table-responsive max-h-[600px]">
                     <table class="table table-modern table-hover mb-0">
                         <thead>
                             <tr>
                                 <th class="text-center px-4">STT</th>
-                                <th>Lĩnh vực</th>
-                                <th class="text-center">Số lượng ý kiến</th>
+                                <th class="role-admin-only">Người đăng ký</th>
+                                <th style="min-width: 220px;">Nội dung ý kiến đóng góp</th>
+                                <th style="min-width: 220px;">Đối tượng đề nghị hỗ trợ</th>
+                                <th>Đối tượng</th>
+                                <th>Cấp tiếp nhận ý kiến</th>
+                                <th>Cột 11</th>
+                                <th class="role-admin-only">Cột 12</th>
+                                <th class="role-admin-only">Cột 13</th>
+                                <th class="role-admin-only">Cột 14</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-demo-linhvuc"></tbody>
+                        <tbody id="tbody-ansinh"></tbody>
                     </table>
                 </div>
             </div>
@@ -300,7 +241,7 @@
         };
         const STORAGE_KEY = 'mttq_demo_auth';
 
-        let myPie, myBar;
+        let myAsPie, myAsBar;
         let currentRole = null;
 
         function isAnSinh(row) {
@@ -310,39 +251,12 @@
         function setRoleUI(role) {
             currentRole = role;
             const isAdmin = role === 'admin';
-            const isDemo = role === 'demo';
 
             document.querySelectorAll('.role-admin-only').forEach(el => {
                 el.classList.toggle('hidden-by-role', !isAdmin);
             });
 
-            document.querySelectorAll('.demo-like-admin').forEach(el => {
-                el.classList.toggle('hidden-by-role', false);
-            });
-
-            document.getElementById('demo-summary').classList.add('hidden');
             document.getElementById('current-user-label').innerText = isAdmin ? 'Admin' : 'Demo';
-
-            const mau2TabItem = document.getElementById('mau2-tab-item');
-            const mau2Pane = document.getElementById('mau2');
-            const mau2Btn = document.getElementById('mau2-tab-btn');
-            const mau3Btn = document.getElementById('mau3-tab-btn');
-            const mau3Pane = document.getElementById('mau3');
-
-            if (isDemo) {
-                mau2TabItem.classList.add('hidden-by-role');
-                mau2Pane.classList.remove('show', 'active');
-                mau2Pane.classList.add('hidden-by-role');
-                mau3Btn.classList.add('active');
-                mau3Pane.classList.add('show', 'active');
-            } else {
-                mau2TabItem.classList.remove('hidden-by-role');
-                mau2Pane.classList.remove('hidden-by-role');
-                mau2Btn.classList.add('active');
-                mau2Pane.classList.add('show', 'active');
-                mau3Btn.classList.remove('active');
-                mau3Pane.classList.remove('show', 'active');
-            }
         }
 
         function showApp(role) {
@@ -416,108 +330,118 @@
                 skipEmptyLines: true,
                 complete: function(results) {
                     const allData = results.data;
-                    const regularData = allData.filter(row => !isAnSinh(row));
-                    renderDashboard(regularData);
+                    const anSinhData = allData.filter(row => isAnSinh(row));
+                    renderAnSinhDashboard(anSinhData);
                 }
             });
         }
 
-        function renderDashboard(data) {
-            document.getElementById('stat-total').innerText = data.length;
-            
-            const cats = data.map(d => d['Cột 5'] || 'Chưa phân loại');
-            const locations = data.map(d => parseWard(d['Địa chỉ: (ghi rõ đơn vị địa phương trước khi sáp nhập. Ví dụ: Tổ 1 - phường Đồng Tiến cũ)']));
-            const catMap = count(cats);
-            
-            document.getElementById('stat-top-cat').innerText = getTop(cats);
-            document.getElementById('stat-top-loc').innerText = getTop(locations);
+        function renderAnSinhImageCell(value) {
+            const raw = (value || '').trim();
+            if (!raw) return '<span class="text-xs text-slate-400 italic">Không có ảnh</span>';
 
-            updateCharts(cats, locations);
-            renderDemoSummary(catMap);
+            const links = raw
+                .split(/\s*[;,.\n]+\s*/)
+                .map(item => item.trim())
+                .filter(Boolean)
+                .filter(item => /^https?:\/\//i.test(item));
 
-            const tb2 = document.getElementById('tbody-mau2');
-            const tb3 = document.getElementById('tbody-mau3');
-            tb2.innerHTML = ''; tb3.innerHTML = '';
+            if (!links.length) {
+                return `<span class="text-xs text-slate-600">${raw}</span>`;
+            }
 
-            data.forEach((row, i) => {
-                const ward = parseWard(row['Địa chỉ: (ghi rõ đơn vị địa phương trước khi sáp nhập. Ví dụ: Tổ 1 - phường Đồng Tiến cũ)']);
-                
-                tb2.innerHTML += `
-                    <tr>
-                        <td class="text-center font-bold text-slate-400">${i+1}</td>
-                        <td>
-                            <div class="font-bold text-slate-800">${row['Họ và tên']}</div>
-                            <div class="text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-location-dot mr-1"></i>${ward}</div>
-                        </td>
-                        <td><span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-[10px] font-bold uppercase border border-slate-200">${row['Cột 5']}</span></td>
-                        <td class="text-sm text-slate-600 leading-relaxed italic">"${row['Vui lòng cho biết ý kiến']}"</td>
-                        <td><div class="text-xs font-bold text-emerald-600 underline">${row['Cột 7'] || 'Đã ghi nhận'}</div></td>
-                    </tr>
-                `;
-
-                tb3.innerHTML += `
-                    <tr>
-                        <td class="text-center font-bold">${i+1}</td>
-                        <td class="text-sm">${row['Vui lòng cho biết ý kiến']}</td>
-                        <td class="text-center font-semibold text-blue-600 text-xs">${ward}</td>
-                        <td class="text-xs text-red-600 font-bold italic"><i class="fa-solid fa-comment-medical mr-1"></i>${row['Cột 7'] || 'Đề nghị UBND kiểm tra'}</td>
-                    </tr>
-                `;
-            });
+            return links.map((link, index) => `
+                <a href="${link}" target="_blank" rel="noopener noreferrer" class="inline-block mr-2 mb-2">
+                    <img src="${link}" alt="Ảnh minh chứng ${index + 1}" class="image-preview" onerror="this.closest('a').outerHTML='<span class=\'text-xs text-slate-600 break-all\'>${link}</span>'">
+                </a>
+            `).join('');
         }
 
-        function renderDemoSummary(catMap) {
-            const tb = document.getElementById('tbody-demo-linhvuc');
-            tb.innerHTML = '';
+        function renderAnSinhDashboard(data) {
+            const COL_ADDRESS = 'Địa chỉ: (ghi rõ đơn vị địa phương trước khi sáp nhập. Ví dụ: Tổ 1 - phường Đồng Tiến cũ)';
+            const COL_TYPE    = 'Cột 9';
+            const COL_HTRO    = 'Vui lòng cung cấp thông tin: (Họ và tên người cần hỗ trợ, địa chỉ sinh sống, hoàn cảnh cụ thể....)';
+            const COL_CAP_TN  = 'Cột 10';
+            const COL_11      = 'Cột 11';
 
-            Object.entries(catMap)
-                .sort((a, b) => b[1] - a[1])
-                .forEach(([name, total], i) => {
-                    tb.innerHTML += `
-                        <tr>
-                            <td class="text-center font-bold text-slate-400">${i + 1}</td>
-                            <td><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-[10px] font-bold uppercase border border-slate-200">${name}</span></td>
-                            <td class="text-center font-bold text-red-600">${total}</td>
-                        </tr>
-                    `;
+            document.getElementById('as-stat-total').innerText = data.length;
+
+            const types     = data.map(d => (d[COL_TYPE] || '').trim() || 'Chưa phân loại');
+            const locations = data.map(d => parseWard(d[COL_ADDRESS]));
+
+            document.getElementById('as-stat-top-type').innerText = getTop(types);
+            document.getElementById('as-stat-top-loc').innerText = getTop(locations);
+
+            const typeMap = count(types);
+            const locMap  = count(locations);
+
+            if (myAsPie) myAsPie.destroy();
+            const asPieCanvas = document.getElementById('asPieChart');
+            if (asPieCanvas) {
+                myAsPie = new Chart(asPieCanvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(typeMap),
+                        datasets: [{
+                            data: Object.values(typeMap),
+                            backgroundColor: ['#14b8a6', '#f97316', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'],
+                            hoverOffset: 20
+                        }]
+                    },
+                    options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, font: { size: 10, weight: 'bold' } } } } }
                 });
-        }
+            }
 
-        function updateCharts(cats, locs) {
-            const catMap = count(cats);
-            const locMap = count(locs);
-
-            if(myPie) myPie.destroy();
-            myPie = new Chart(document.getElementById('pieChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(catMap),
-                    datasets: [{
-                        data: Object.values(catMap),
-                        backgroundColor: ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'],
-                        hoverOffset: 20
-                    }]
-                },
-                options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, font: { size: 10, weight: 'bold' } } } } }
-            });
-
-            if (myBar) myBar.destroy();
-            const barCanvas = document.getElementById('barChart');
-            if (barCanvas) {
-                myBar = new Chart(barCanvas, {
+            if (myAsBar) myAsBar.destroy();
+            const asBarCanvas = document.getElementById('asBarChart');
+            if (asBarCanvas) {
+                myAsBar = new Chart(asBarCanvas, {
                     type: 'bar',
                     data: {
                         labels: Object.keys(locMap),
                         datasets: [{
-                            label: 'Số ý kiến',
+                            label: 'Số hồ sơ',
                             data: Object.values(locMap),
-                            backgroundColor: '#3b82f6',
+                            backgroundColor: '#14b8a6',
                             borderRadius: 8
                         }]
                     },
                     options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { display: false } } } }
                 });
             }
+
+            const tb = document.getElementById('tbody-ansinh');
+            tb.innerHTML = '';
+
+            if (data.length === 0) {
+                tb.innerHTML = '<tr><td colspan="10" class="text-center text-slate-400 py-8">Chưa có dữ liệu An Sinh – Xã Hội Số</td></tr>';
+                return;
+            }
+
+            data.forEach((row, i) => {
+                const ward = parseWard(row[COL_ADDRESS]);
+                const col = (key) => (row[key] || '').trim();
+
+                tb.innerHTML += `
+                    <tr>
+                        <td class="text-center font-bold text-slate-400">${i+1}</td>
+                        ${currentRole === 'admin' ? `
+                        <td>
+                            <div class="font-bold text-slate-800">${col('Họ và tên')}</div>
+                            <div class="text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-location-dot mr-1"></i>${ward}</div>
+                        </td>` : ''}
+                        <td class="text-sm text-slate-600 leading-relaxed italic">"${col('Vui lòng cho biết ý kiến')}"</td>
+                        <td class="text-sm text-slate-700">${col(COL_HTRO)}</td>
+                        <td><span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-[10px] font-bold uppercase border border-teal-200">${col(COL_TYPE)}</span></td>
+                        <td class="text-xs text-slate-600">${col(COL_CAP_TN) || 'Đã tiếp nhận'}</td>
+                        <td>${renderAnSinhImageCell(col(COL_11))}</td>
+                        ${currentRole === 'admin' ? `
+                        <td class="text-xs text-slate-600">${col('Cột 12')}</td>
+                        <td class="text-xs text-slate-600">${col('Cột 13')}</td>
+                        <td class="text-xs text-slate-600">${col('Cột 14')}</td>` : ''}
+                    </tr>
+                `;
+            });
         }
 
         function parseWard(s) {
