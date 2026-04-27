@@ -214,14 +214,14 @@
                             <tr>
                                 <th class="text-center px-4">STT</th>
                                 <th class="role-admin-only">Người đăng ký</th>
-                                <th style="min-width: 220px;">Nội dung ý kiến đóng góp</th>
-                                <th style="min-width: 220px;">Đối tượng đề nghị hỗ trợ</th>
+                                <th style="min-width: 220px;">Hoàn cảnh</th>
+                                <th style="min-width: 220px;">Đối tượng / hình thức hỗ trợ</th>
                                 <th>Đối tượng</th>
                                 <th>Cấp tiếp nhận ý kiến</th>
-                                <th>Cột 11</th>
-                                <th class="role-admin-only">Cột 12</th>
-                                <th class="role-admin-only">Cột 13</th>
-                                <th class="role-admin-only">Cột 14</th>
+                                <th>Ảnh</th>
+                                <th class="role-admin-only">Tình trạng hỗ trợ</th>
+                                <th class="role-admin-only">Thông tin nhà hảo tâm</th>
+                                <th class="role-admin-only">Số điện thoại</th>
                             </tr>
                         </thead>
                         <tbody id="tbody-ansinh"></tbody>
@@ -234,7 +234,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIbb0U8Pzo1G6S_uM8-MFdPM-x-k1P4vzAfTAeHUYfLHZlltFz0LO0Wbtv7VipK2kB7yRl-WG1Ax0h/pub?gid=331331060&single=true&output=csv';
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSU86YoFJJStMuK3fMaO5MFjMmMhfDO6vJ7qPzVlp4-InE6tlDTaiVEzwvvbf-iE0hbzfyG5kF1TyO3/pub?gid=55958444&single=true&output=csv';
         const LOGIN_ACCOUNTS = {
             admin: { password: 'MTTQ@2026', role: 'admin', label: 'Admin' },
             demo: { password: 'demo@2026', role: 'demo', label: 'Demo' }
@@ -244,8 +244,41 @@
         let myAsPie, myAsBar;
         let currentRole = null;
 
+        function normalizeText(s) {
+            return (s || '').toString().trim();
+        }
+
+        function parseAddressParts(address) {
+            const raw = normalizeText(address);
+            if (!raw) return { to: 'N/A', phuong: 'N/A', wardLabel: 'N/A' };
+
+            const normalized = raw.replace(/\s+/g, ' ');
+            const parts = normalized.split(',').map(p => p.trim()).filter(Boolean);
+            const toPart = parts.find(p => /\bTổ\b/i.test(p)) || parts[0] || 'N/A';
+            const phuongPart = parts.find(p => /phường|xã|thị trấn/i.test(p)) || parts[1] || 'N/A';
+
+            const wardMatch = phuongPart.match(/phường\s+(.+?)(?:\s+cũ|$)/i) || phuongPart.match(/xã\s+(.+?)(?:\s+cũ|$)/i) || phuongPart.match(/thị trấn\s+(.+?)(?:\s+cũ|$)/i);
+            const wardName = wardMatch ? wardMatch[1].trim() : phuongPart.replace(/\s+cũ$/i, '').trim();
+
+            return {
+                to: toPart,
+                phuong: phuongPart,
+                wardLabel: wardName || phuongPart || 'N/A'
+            };
+        }
+
+        function getAddressLabel(address) {
+            const { to, wardLabel } = parseAddressParts(address);
+            if (to === 'N/A' && wardLabel === 'N/A') return 'N/A';
+            return `${to} - ${wardLabel}`;
+        }
+
         function isAnSinh(row) {
-            return (row['Cột 5'] || '').trim() === 'AN SINH - XÃ HỘI SỐ';
+            return [
+                row['Cột 5'],
+                row['đối tượng'],
+                row['đối tượng ']
+            ].some(v => normalizeText(v).toUpperCase().includes('AN SINH'));
         }
 
         function setRoleUI(role) {
@@ -337,17 +370,17 @@
         }
 
         function renderAnSinhImageCell(value) {
-            const raw = (value || '').trim();
+            const raw = normalizeText(value);
             if (!raw) return '<span class="text-xs text-slate-400 italic">Không có ảnh</span>';
 
             const links = raw
-                .split(/\s*[;,.\n]+\s*/)
+                .split(/\s*[;,\n]+\s*/)
                 .map(item => item.trim())
                 .filter(Boolean)
                 .filter(item => /^https?:\/\//i.test(item));
 
             if (!links.length) {
-                return `<span class="text-xs text-slate-600">${raw}</span>`;
+                return `<span class="text-xs text-slate-600 break-all">${raw}</span>`;
             }
 
             return links.map((link, index) => `
@@ -357,23 +390,34 @@
             `).join('');
         }
 
+        function count(arr) {
+            return arr.reduce((acc, c) => { acc[c] = (acc[c] || 0) + 1; return acc; }, {});
+        }
+
+        function getTop(arr) {
+            const c = count(arr);
+            return Object.keys(c).reduce((a, b) => c[a] > c[b] ? a : b, '-');
+        }
+
         function renderAnSinhDashboard(data) {
-            const COL_ADDRESS = 'Địa chỉ: (ghi rõ đơn vị địa phương trước khi sáp nhập. Ví dụ: Tổ 1 - phường Đồng Tiến cũ)';
-            const COL_TYPE    = 'Cột 9';
-            const COL_HTRO    = 'Vui lòng cung cấp thông tin: (Họ và tên người cần hỗ trợ, địa chỉ sinh sống, hoàn cảnh cụ thể....)';
-            const COL_CAP_TN  = 'Cột 10';
-            const COL_11      = 'Cột 11';
+            const COL_ADDRESS = 'Địa chỉ cũ trước sáp nhập (ghi rõ "Tổ...., phường cũ" dùng dấu phẩy để phân cách. Ví dụ: Tổ 1, phường Tân Thịnh cũ)';
+            const COL_TYPE = 'đối tượng';
+            const COL_HOAN_CANH = 'hoàn cảnh';
+            const COL_ANH = 'ảnh';
+            const COL_TINH_TRANG = 'tình trạng hỗ trợ';
+            const COL_NHA_HAO_TAM = 'thông tin nhà hảo tâm';
+            const COL_HINH_THUC = 'đối tượng hoặc hình thức hỗ trợ';
 
             document.getElementById('as-stat-total').innerText = data.length;
 
-            const types     = data.map(d => (d[COL_TYPE] || '').trim() || 'Chưa phân loại');
-            const locations = data.map(d => parseWard(d[COL_ADDRESS]));
+            const types = data.map(d => normalizeText(d[COL_TYPE]) || 'Chưa phân loại');
+            const locations = data.map(d => getAddressLabel(d[COL_ADDRESS]));
 
             document.getElementById('as-stat-top-type').innerText = getTop(types);
             document.getElementById('as-stat-top-loc').innerText = getTop(locations);
 
             const typeMap = count(types);
-            const locMap  = count(locations);
+            const locMap = count(locations);
 
             if (myAsPie) myAsPie.destroy();
             const asPieCanvas = document.getElementById('asPieChart');
@@ -419,8 +463,9 @@
             }
 
             data.forEach((row, i) => {
-                const ward = parseWard(row[COL_ADDRESS]);
-                const col = (key) => (row[key] || '').trim();
+                const address = normalizeText(row[COL_ADDRESS]);
+                const { to, phuong, wardLabel } = parseAddressParts(address);
+                const col = (key) => normalizeText(row[key]);
 
                 tb.innerHTML += `
                     <tr>
@@ -428,40 +473,20 @@
                         ${currentRole === 'admin' ? `
                         <td>
                             <div class="font-bold text-slate-800">${col('Họ và tên')}</div>
-                            <div class="text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-location-dot mr-1"></i>${ward}</div>
+                            <div class="text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-location-dot mr-1"></i>${to}${phuong !== 'N/A' ? `, ${phuong}` : ''}</div>
                         </td>` : ''}
-                        <td class="text-sm text-slate-600 leading-relaxed italic">"${col('Vui lòng cho biết ý kiến')}"</td>
-                        <td class="text-sm text-slate-700">${col(COL_HTRO)}</td>
+                        <td class="text-sm text-slate-600 leading-relaxed italic">"${col(COL_HOAN_CANH)}"</td>
+                        <td class="text-sm text-slate-700">${col(COL_HINH_THUC) || 'Đã tiếp nhận'}</td>
                         <td><span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-[10px] font-bold uppercase border border-teal-200">${col(COL_TYPE)}</span></td>
-                        <td class="text-xs text-slate-600">${col(COL_CAP_TN) || 'Đã tiếp nhận'}</td>
-                        <td>${renderAnSinhImageCell(col(COL_11))}</td>
+                        <td class="text-xs text-slate-600">${wardLabel}</td>
+                        <td>${renderAnSinhImageCell(col(COL_ANH))}</td>
                         ${currentRole === 'admin' ? `
-                        <td class="text-xs text-slate-600">${col('Cột 12')}</td>
-                        <td class="text-xs text-slate-600">${col('Cột 13')}</td>
-                        <td class="text-xs text-slate-600">${col('Cột 14')}</td>` : ''}
+                        <td class="text-xs text-slate-600">${col(COL_TINH_TRANG)}</td>
+                        <td class="text-xs text-slate-600">${col(COL_NHA_HAO_TAM)}</td>
+                        <td class="text-xs text-slate-600">${col('Số điện thọai')}</td>` : ''}
                     </tr>
                 `;
             });
-        }
-
-        function parseWard(s) {
-            if (!s) return 'N/A';
-            const val = s.toLowerCase();
-            if (val.includes('phương lâm')) return 'Phương Lâm';
-            if (val.includes('thịnh lang')) return 'Thịnh Lang';
-            if (val.includes('đồng tiến')) return 'Đồng Tiến';
-            if (val.includes('tân thịnh')) return 'Tân Thịnh';
-            if (val.includes('hữu nghị')) return 'Hữu Nghị';
-            return 'Địa bàn khác';
-        }
-
-        function count(arr) {
-            return arr.reduce((acc, c) => { acc[c] = (acc[c] || 0) + 1; return acc; }, {});
-        }
-
-        function getTop(arr) {
-            const c = count(arr);
-            return Object.keys(c).reduce((a, b) => c[a] > c[b] ? a : b, '-');
         }
 
         tryAutoLogin();
