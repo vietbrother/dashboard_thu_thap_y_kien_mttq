@@ -4,38 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>An Sinh – Xã Hội Số - MTTQ Hòa Bình</title>
-    
-    <!-- Frameworks & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-
     <style>
         :root { --primary: #da251d; --secondary: #1e293b; }
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
-        
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-
-        /* Modern Elements */
         .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
         .stat-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
-        
         .table-modern thead { background: #f1f5f9; position: sticky; top: 0; z-index: 10; }
         .table-modern th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; border: none; }
         .table-modern td { vertical-align: middle; padding: 1rem 0.75rem; border-color: #f1f5f9; }
-
         .hidden-by-role { display: none !important; }
         .image-preview { max-width: 140px; max-height: 140px; object-fit: cover; border-radius: 0.75rem; border: 1px solid #cbd5e1; }
-
-        /* Mobile Adjustments */
         @media (max-width: 768px) {
             .header-title { font-size: 1.1rem !important; }
             .stat-grid { grid-template-columns: 1fr; }
@@ -53,7 +40,6 @@
                 <h1 class="text-2xl font-extrabold text-slate-800">Đăng nhập hệ thống</h1>
                 <p class="text-sm text-slate-500 mt-2">Demo tài khoản truy cập dashboard MTTQ</p>
             </div>
-
             <form id="login-form" class="space-y-4">
                 <div>
                     <label class="block text-sm font-semibold text-slate-700 mb-2">Tên đăng nhập</label>
@@ -64,406 +50,140 @@
                     <input id="password" type="password" class="form-control rounded-xl py-3" placeholder="Nhập password" required>
                 </div>
                 <div id="login-error" class="hidden text-sm text-red-600 font-semibold bg-red-50 border border-red-200 rounded-xl px-3 py-2"></div>
-                <button type="submit" class="w-full py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition">
-                    <i class="fa-solid fa-right-to-bracket mr-2"></i>Đăng nhập
-                </button>
+                <button type="submit" class="w-full py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition"><i class="fa-solid fa-right-to-bracket mr-2"></i>Đăng nhập</button>
             </form>
         </div>
     </div>
 
     <div id="app-shell" class="hidden">
-        <!-- Top Navigation -->
         <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
             <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="bg-red-600 p-2 rounded-xl shadow-lg">
-                        <i class="fa-solid fa-star text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-[10px] font-bold text-red-600 uppercase tracking-[0.2em] leading-tight">Ủy ban MTTQ Việt Nam</h2>
-                        <h1 class="header-title text-xl font-extrabold text-slate-800 tracking-tight leading-tight">PHƯỜNG HÒA BÌNH</h1>
-                    </div>
+                    <div class="bg-red-600 p-2 rounded-xl shadow-lg"><i class="fa-solid fa-star text-white text-xl"></i></div>
+                    <div><h2 class="text-[10px] font-bold text-red-600 uppercase tracking-[0.2em] leading-tight">Ủy ban MTTQ Việt Nam</h2><h1 class="header-title text-xl font-extrabold text-slate-800 tracking-tight leading-tight">PHƯỜNG HÒA BÌNH</h1></div>
                 </div>
                 <div class="flex items-center gap-3">
                     <div class="hidden md:flex items-center gap-4">
-                        <div id="sync-status" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold">
-                            <span class="relative flex h-2 w-2">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                            </span>
-                            DỮ LIỆU TRỰC TUYẾN
-                        </div>
+                        <div id="sync-status" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>DỮ LIỆU TRỰC TUYẾN</div>
                     </div>
-                    <div class="text-end">
-                        <div class="text-xs text-slate-500">Đang đăng nhập</div>
-                        <div id="current-user-label" class="text-sm font-bold text-slate-800">-</div>
-                    </div>
-                    <button id="logout-btn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-sm font-bold transition">
-                        <i class="fa-solid fa-right-from-bracket mr-2"></i>Đăng xuất
-                    </button>
+                    <div class="text-end"><div class="text-xs text-slate-500">Đang đăng nhập</div><div id="current-user-label" class="text-sm font-bold text-slate-800">-</div></div>
+                    <button id="logout-btn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-sm font-bold transition"><i class="fa-solid fa-right-from-bracket mr-2"></i>Đăng xuất</button>
                 </div>
             </div>
         </nav>
 
-        <!-- Page Navigation Menu -->
-        <div class="bg-white border-b border-slate-200">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex gap-1 py-2">
-                    <a href="index.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 transition">
-                        <i class="fa-solid fa-comments"></i>Ý kiến nhân dân
-                    </a>
-                    <a href="ansinh.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-teal-600 text-white shadow-sm">
-                        <i class="fa-solid fa-hand-holding-heart"></i>An sinh xã hội số
-                    </a>
-                </div>
-            </div>
-        </div>
+        <div class="bg-white border-b border-slate-200"><div class="max-w-7xl mx-auto px-4"><div class="flex gap-1 py-2"><a href="index.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 transition"><i class="fa-solid fa-comments"></i>Ý kiến nhân dân</a><a href="ansinh.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-teal-600 text-white shadow-sm"><i class="fa-solid fa-hand-holding-heart"></i>An sinh xã hội số</a></div></div></div>
 
         <main class="max-w-7xl mx-auto px-4 py-8">
-            <!-- Welcome Alert (CORS Helper) -->
             <div id="cors-notice" class="hidden mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex flex-col md:flex-row items-center gap-4">
-                <div class="bg-amber-100 p-3 rounded-full text-amber-600">
-                    <i class="fa-solid fa-triangle-exclamation text-xl"></i>
-                </div>
-                <div class="flex-1">
-                    <h4 class="text-amber-800 font-bold text-sm">Lưu ý: Bạn đang chạy file từ máy tính cá nhân</h4>
-                    <p class="text-amber-700 text-xs">Để hiển thị dữ liệu, hãy tải file CSV từ Google Sheets và chọn vào nút bên cạnh.</p>
-                </div>
+                <div class="bg-amber-100 p-3 rounded-full text-amber-600"><i class="fa-solid fa-triangle-exclamation text-xl"></i></div>
+                <div class="flex-1"><h4 class="text-amber-800 font-bold text-sm">Lưu ý: Bạn đang chạy file từ máy tính cá nhân</h4><p class="text-amber-700 text-xs">Để hiển thị dữ liệu, hãy tải file CSV từ Google Sheets và chọn vào nút bên cạnh.</p></div>
                 <input type="file" id="manualUpload" accept=".csv" class="hidden">
-                <button onclick="document.getElementById('manualUpload').click()" class="w-full md:w-auto px-6 py-2.5 bg-amber-600 text-white text-xs font-bold rounded-xl hover:bg-amber-700 transition">
-                    <i class="fa-solid fa-file-csv mr-2"></i>CHỌN FILE CSV
-                </button>
+                <button onclick="document.getElementById('manualUpload').click()" class="w-full md:w-auto px-6 py-2.5 bg-amber-600 text-white text-xs font-bold rounded-xl hover:bg-amber-700 transition"><i class="fa-solid fa-file-csv mr-2"></i>CHỌN FILE CSV</button>
             </div>
 
-            <!-- AN SINH - XÃ HỘI SỐ SECTION -->
-            <div class="flex items-center gap-4 mb-8">
-                <div class="flex-1 border-t-2 border-dashed border-teal-300"></div>
-                <div class="flex items-center gap-3 px-6 py-3 bg-teal-600 text-white rounded-2xl shadow-lg">
-                    <i class="fa-solid fa-hand-holding-heart text-xl"></i>
-                    <span class="font-extrabold text-base uppercase tracking-wide">An Sinh – Xã Hội Số</span>
-                </div>
-                <div class="flex-1 border-t-2 border-dashed border-teal-300"></div>
+            <div class="flex items-center gap-4 mb-8"><div class="flex-1 border-t-2 border-dashed border-teal-300"></div><div class="flex items-center gap-3 px-6 py-3 bg-teal-600 text-white rounded-2xl shadow-lg"><i class="fa-solid fa-hand-holding-heart text-xl"></i><span class="font-extrabold text-base uppercase tracking-wide">An Sinh – Xã Hội Số</span></div><div class="flex-1 border-t-2 border-dashed border-teal-300"></div></div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                <div class="glass-card stat-card p-5 border-l-4 border-teal-500"><div class="flex justify-between items-start"><div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Tổng hồ sơ</p><h3 id="as-stat-total" class="text-3xl font-black mt-1">0</h3></div><div class="bg-teal-50 p-3 rounded-xl text-teal-500"><i class="fa-solid fa-hand-holding-heart text-xl"></i></div></div><div class="mt-4 flex items-center text-xs text-teal-600 font-semibold"><i class="fa-solid fa-arrow-up-right-dots mr-1"></i> An sinh – xã hội số</div></div>
+                <div class="glass-card stat-card p-5 border-l-4 border-orange-500"><div class="flex justify-between items-start"><div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Đối tượng đề nghị hỗ trợ</p><h3 id="as-stat-top-type" class="text-base font-extrabold mt-2 leading-tight">-</h3></div><div class="bg-orange-50 p-3 rounded-xl text-orange-500"><i class="fa-solid fa-users text-xl"></i></div></div></div>
+                <div class="glass-card stat-card p-5 border-l-4 border-emerald-500"><div class="flex justify-between items-start"><div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Địa bàn đăng ký nhiều nhất</p><h3 id="as-stat-top-loc" class="text-base font-extrabold mt-2 leading-tight">-</h3></div><div class="bg-emerald-50 p-3 rounded-xl text-emerald-500"><i class="fa-solid fa-map-location-dot text-xl"></i></div></div></div>
+                <div class="glass-card stat-card p-5 border-l-4 border-indigo-500"><div class="flex justify-between items-start"><div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Tổ cần an sinh nhiều nhất</p><h3 id="as-stat-top-to" class="text-base font-extrabold mt-2 leading-tight">-</h3></div><div class="bg-indigo-50 p-3 rounded-xl text-indigo-500"><i class="fa-solid fa-people-roof text-xl"></i></div></div></div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                <div class="glass-card stat-card p-5 border-l-4 border-teal-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Tổng hồ sơ</p>
-                            <h3 id="as-stat-total" class="text-3xl font-black mt-1">0</h3>
-                        </div>
-                        <div class="bg-teal-50 p-3 rounded-xl text-teal-500"><i class="fa-solid fa-hand-holding-heart text-xl"></i></div>
-                    </div>
-                    <div class="mt-4 flex items-center text-xs text-teal-600 font-semibold">
-                        <i class="fa-solid fa-arrow-up-right-dots mr-1"></i> An sinh – xã hội số
-                    </div>
-                </div>
-
-                <div class="glass-card stat-card p-5 border-l-4 border-orange-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Đối tượng đề nghị hỗ trợ</p>
-                            <h3 id="as-stat-top-type" class="text-base font-extrabold mt-2 leading-tight">-</h3>
-                        </div>
-                        <div class="bg-orange-50 p-3 rounded-xl text-orange-500"><i class="fa-solid fa-users text-xl"></i></div>
-                    </div>
-                </div>
-
-                <div class="glass-card stat-card p-5 border-l-4 border-emerald-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Địa bàn đăng ký nhiều nhất</p>
-                            <h3 id="as-stat-top-loc" class="text-base font-extrabold mt-2 leading-tight">-</h3>
-                        </div>
-                        <div class="bg-emerald-50 p-3 rounded-xl text-emerald-500"><i class="fa-solid fa-map-location-dot text-xl"></i></div>
-                    </div>
-                </div>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
+                <div class="glass-card p-6 xl:col-span-1"><div class="flex items-center justify-between mb-6"><h5 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-chart-pie text-teal-600"></i> PHÂN LOẠI ĐỐI TƯỢNG</h5></div><div class="chart-container h-[350px] relative"><canvas id="asPieChart"></canvas></div></div>
+                <div class="glass-card p-6 xl:col-span-2"><div class="flex items-center justify-between mb-6"><h5 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-chart-simple text-teal-600"></i> HỒ SƠ THEO KHU VỰC</h5></div><div class="chart-container h-[350px] relative"><canvas id="asBarChart"></canvas></div></div>
             </div>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10"><div class="glass-card p-6 xl:col-span-3"><div class="flex items-center justify-between mb-6"><h5 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-ranking-star text-indigo-600"></i> TOP 10 TỔ CẦN AN SINH NHIỀU NHẤT</h5></div><div class="chart-container h-[380px] relative"><canvas id="asTopToChart"></canvas></div></div></div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-                <div class="glass-card p-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <h5 class="font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-chart-pie text-teal-600"></i> PHÂN LOẠI ĐỐI TƯỢNG
-                        </h5>
-                    </div>
-                    <div class="chart-container h-[350px] relative">
-                        <canvas id="asPieChart"></canvas>
-                    </div>
-                </div>
-                <div class="glass-card p-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <h5 class="font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-chart-simple text-teal-600"></i> HỒ SƠ THEO ĐỊA BÀN
-                        </h5>
-                    </div>
-                    <div class="chart-container h-[350px] relative">
-                        <canvas id="asBarChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="glass-card overflow-hidden">
-                <div class="bg-teal-50 p-4 border-b border-teal-200 flex items-center gap-2">
-                    <i class="fa-solid fa-table-list text-teal-600"></i>
-                    <span class="font-bold text-teal-800 uppercase text-sm tracking-wide">Chi tiết hồ sơ An Sinh – Xã Hội Số</span>
-                </div>
-                <div class="table-responsive max-h-[600px]">
-                    <table class="table table-modern table-hover mb-0">
-                        <thead>
-                            <tr>
-                                <th class="text-center px-4">STT</th>
-                                <th class="role-admin-only">Người đăng ký</th>
-                                <th style="min-width: 220px;">Nội dung ý kiến đóng góp</th>
-                                <th style="min-width: 220px;">Đối tượng đề nghị hỗ trợ</th>
-                                <th>Đối tượng</th>
-                                <th>Cấp tiếp nhận ý kiến</th>
-                                <th>Cột 11</th>
-                                <th class="role-admin-only">Cột 12</th>
-                                <th class="role-admin-only">Cột 13</th>
-                                <th class="role-admin-only">Cột 14</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-ansinh"></tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="glass-card overflow-hidden"><div class="bg-teal-50 p-4 border-b border-teal-200 flex items-center gap-2"><i class="fa-solid fa-table-list text-teal-600"></i><span class="font-bold text-teal-800 uppercase text-sm tracking-wide">Chi tiết hồ sơ An Sinh – Xã Hội Số</span></div><div class="table-responsive max-h-[600px]"><table class="table table-modern table-hover mb-0"><thead><tr><th class="text-center px-4">STT</th><th>Ngày tạo</th><th>Họ và tên</th><th>Số điện thoại</th><th>Địa chỉ cũ trước sáp nhập</th><th>Tổ / phường cũ</th><th>Đối tượng</th><th>Hoàn cảnh</th><th>Ảnh</th><th>Tình trạng hỗ trợ</th><th>Thông tin nhà hảo tâm</th><th>Đối tượng / hình thức hỗ trợ</th></tr></thead><tbody id="tbody-ansinh"></tbody></table></div></div>
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQIbb0U8Pzo1G6S_uM8-MFdPM-x-k1P4vzAfTAeHUYfLHZlltFz0LO0Wbtv7VipK2kB7yRl-WG1Ax0h/pub?gid=331331060&single=true&output=csv';
-        const LOGIN_ACCOUNTS = {
-            admin: { password: 'MTTQ@2026', role: 'admin', label: 'Admin' },
-            demo: { password: 'demo@2026', role: 'demo', label: 'Demo' }
-        };
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSU86YoFJJStMuK3fMaO5MFjMmMhfDO6vJ7qPzVlp4-InE6tlDTaiVEzwvvbf-iE0hbzfyG5kF1TyO3/pub?gid=55958444&single=true&output=csv';
+        const LOGIN_ACCOUNTS = { admin: { password: 'MTTQ@2026', role: 'admin' }, demo: { password: 'demo@2026', role: 'demo' } };
         const STORAGE_KEY = 'mttq_demo_auth';
+        let myAsPie, myAsBar, myTopTo, currentRole = null;
 
-        let myAsPie, myAsBar;
-        let currentRole = null;
-
-        function isAnSinh(row) {
-            return (row['Cột 5'] || '').trim() === 'AN SINH - XÃ HỘI SỐ';
-        }
-
-        function setRoleUI(role) {
-            currentRole = role;
-            const isAdmin = role === 'admin';
-
-            document.querySelectorAll('.role-admin-only').forEach(el => {
-                el.classList.toggle('hidden-by-role', !isAdmin);
-            });
-
-            document.getElementById('current-user-label').innerText = isAdmin ? 'Admin' : 'Demo';
-        }
-
-        function showApp(role) {
-            setRoleUI(role);
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('app-shell').classList.remove('hidden');
-            init();
-        }
-
-        function logout() {
-            localStorage.removeItem(STORAGE_KEY);
-            currentRole = null;
-            document.getElementById('app-shell').classList.add('hidden');
-            document.getElementById('login-screen').classList.remove('hidden');
-            document.getElementById('login-form').reset();
-        }
-
-        function tryAutoLogin() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (!saved) return;
-            try {
-                const parsed = JSON.parse(saved);
-                if (parsed?.role && ['admin', 'demo'].includes(parsed.role)) {
-                    showApp(parsed.role);
-                }
-            } catch (_) {}
-        }
-
-        async function init() {
-            try {
-                const res = await fetch(CSV_URL);
-                if (!res.ok) throw new Error();
-                const text = await res.text();
-                process(text);
-            } catch (e) {
-                document.getElementById('cors-notice').classList.remove('hidden');
-                document.getElementById('sync-status').className = 'px-3 py-1.5 rounded-full bg-red-50 text-red-600 text-xs font-bold';
-                document.getElementById('sync-status').innerHTML = '<i class="fa-solid fa-circle-xmark mr-1"></i> CHƯA KẾT NỐI';
-            }
-        }
-
-        document.getElementById('manualUpload').addEventListener('change', function(e) {
-            const reader = new FileReader();
-            reader.onload = (ev) => process(ev.target.result);
-            reader.readAsText(e.target.files[0]);
-        });
-
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const errorBox = document.getElementById('login-error');
-            const account = LOGIN_ACCOUNTS[username];
-
-            if (!account || account.password !== password) {
-                errorBox.textContent = 'Sai tên đăng nhập hoặc mật khẩu.';
-                errorBox.classList.remove('hidden');
-                return;
-            }
-
-            errorBox.classList.add('hidden');
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({ username, role: account.role }));
-            showApp(account.role);
-        });
-
+        function setRoleUI(role){ currentRole = role; const isAdmin = role === 'admin'; document.querySelectorAll('.role-admin-only').forEach(el => el.classList.toggle('hidden-by-role', !isAdmin)); document.getElementById('current-user-label').innerText = isAdmin ? 'Admin' : 'Demo'; }
+        function showApp(role){ setRoleUI(role); document.getElementById('login-screen').classList.add('hidden'); document.getElementById('app-shell').classList.remove('hidden'); init(); }
+        function logout(){ localStorage.removeItem(STORAGE_KEY); currentRole = null; document.getElementById('app-shell').classList.add('hidden'); document.getElementById('login-screen').classList.remove('hidden'); document.getElementById('login-form').reset(); }
+        function tryAutoLogin(){ const saved = localStorage.getItem(STORAGE_KEY); if(!saved) return; try{ const parsed = JSON.parse(saved); if(parsed?.role && ['admin','demo'].includes(parsed.role)) showApp(parsed.role); }catch(_){} }
+        async function init(){ try{ const res = await fetch(CSV_URL); if(!res.ok) throw new Error(); process(await res.text()); }catch(e){ document.getElementById('cors-notice').classList.remove('hidden'); document.getElementById('sync-status').className = 'px-3 py-1.5 rounded-full bg-red-50 text-red-600 text-xs font-bold'; document.getElementById('sync-status').innerHTML = '<i class="fa-solid fa-circle-xmark mr-1"></i> CHƯA KẾT NỐI'; } }
+        document.getElementById('manualUpload').addEventListener('change', e => { const r = new FileReader(); r.onload = ev => process(ev.target.result); r.readAsText(e.target.files[0]); });
+        document.getElementById('login-form').addEventListener('submit', e => { e.preventDefault(); const username = document.getElementById('username').value.trim(); const password = document.getElementById('password').value.trim(); const errorBox = document.getElementById('login-error'); const account = LOGIN_ACCOUNTS[username]; if(!account || account.password !== password){ errorBox.textContent = 'Sai tên đăng nhập hoặc mật khẩu.'; errorBox.classList.remove('hidden'); return; } errorBox.classList.add('hidden'); localStorage.setItem(STORAGE_KEY, JSON.stringify({ username, role: account.role })); showApp(account.role); });
         document.getElementById('logout-btn').addEventListener('click', logout);
 
-        function process(csvData) {
-            Papa.parse(csvData, {
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    const allData = results.data;
-                    const anSinhData = allData.filter(row => isAnSinh(row));
-                    renderAnSinhDashboard(anSinhData);
-                }
-            });
-        }
+        function process(csvData){ Papa.parse(csvData, { header: true, skipEmptyLines: true, complete: r => renderAnSinhDashboard(r.data || []) }); }
 
-        function renderAnSinhImageCell(value) {
-            const raw = (value || '').trim();
-            if (!raw) return '<span class="text-xs text-slate-400 italic">Không có ảnh</span>';
+        function normalizeText(v){ return (v ?? '').toString().trim(); }
+        function escapeHtml(str){ return (str ?? '').toString().replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;'); }
+        function escapeAttr(str){ return escapeHtml(str).replaceAll('`','&#96;'); }
+        function count(arr){ return arr.reduce((acc,c)=>{ acc[c]=(acc[c]||0)+1; return acc; },{}); }
+        function getTop(arr){ const c = count(arr); return Object.keys(c).reduce((a,b)=> c[a] > c[b] ? a : b, '-') || '-'; }
+        function parseWard(s){ const v = normalizeText(s).toLowerCase(); if(!v) return 'Chưa xác định'; if(v.includes('phương lâm') || v.includes('phuong lam')) return 'Phương Lâm'; if(v.includes('thịnh lang') || v.includes('thinh lang')) return 'Thịnh Lang'; if(v.includes('đồng tiến') || v.includes('dong tien')) return 'Đồng Tiến'; if(v.includes('tân thịnh') || v.includes('tan thinh')) return 'Tân Thịnh'; if(v.includes('hữu nghị') || v.includes('huu nghi')) return 'Hữu Nghị'; const m = v.match(/tổ\s*\d+/i); return m ? normalizeText(m[0]).replace(/\s+/g,' ').toUpperCase() : 'Khu vực khác'; }
+        function parseTo(s){ const v = normalizeText(s).toLowerCase(); const m = v.match(/tổ\s*\d+/i); return m ? normalizeText(m[0]).replace(/\s+/g,' ').toUpperCase() : 'Chưa xác định'; }
+        function extractDriveId(url){ const m = normalizeText(url).match(/(?:open\?id=|\/d\/)([a-zA-Z0-9_-]+)/i); return m ? m[1] : ''; }
+        function normalizeImageUrl(raw){ const v = normalizeText(raw); if(!v) return ''; const id = extractDriveId(v); if(id) return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`; return v; }
+        function renderAnSinhImageCell(value){ const raw = normalizeText(value); if(!raw) return '<span class="text-xs text-slate-400 italic">Không có ảnh</span>'; const links = raw.split(/\s*[;,\n]+\s*/).map(i=>i.trim()).filter(Boolean).map(normalizeImageUrl).filter(Boolean); if(!links.length) return `<span class="text-xs text-slate-600 break-all">${escapeHtml(raw)}</span>`; return links.map((link, index) => { const safeLink = escapeAttr(link); return `<a href="${safeLink}" target="_blank" rel="noopener noreferrer" class="inline-block mr-2 mb-2"><img src="${safeLink}" alt="Ảnh minh chứng ${index + 1}" class="image-preview" onerror="this.closest('a').outerHTML='<span class=\'text-xs text-slate-600 break-all\'>${escapeHtml(link)}</span>'"></a>`; }).join(''); }
 
-            const links = raw
-                .split(/\s*[;,.\n]+\s*/)
-                .map(item => item.trim())
-                .filter(Boolean)
-                .filter(item => /^https?:\/\//i.test(item));
-
-            if (!links.length) {
-                return `<span class="text-xs text-slate-600">${raw}</span>`;
-            }
-
-            return links.map((link, index) => `
-                <a href="${link}" target="_blank" rel="noopener noreferrer" class="inline-block mr-2 mb-2">
-                    <img src="${link}" alt="Ảnh minh chứng ${index + 1}" class="image-preview" onerror="this.closest('a').outerHTML='<span class=\'text-xs text-slate-600 break-all\'>${link}</span>'">
-                </a>
-            `).join('');
-        }
-
-        function renderAnSinhDashboard(data) {
-            const COL_ADDRESS = 'Địa chỉ: (ghi rõ đơn vị địa phương trước khi sáp nhập. Ví dụ: Tổ 1 - phường Đồng Tiến cũ)';
-            const COL_TYPE    = 'Cột 9';
-            const COL_HTRO    = 'Vui lòng cung cấp thông tin: (Họ và tên người cần hỗ trợ, địa chỉ sinh sống, hoàn cảnh cụ thể....)';
-            const COL_CAP_TN  = 'Cột 10';
-            const COL_11      = 'Cột 11';
-
-            document.getElementById('as-stat-total').innerText = data.length;
-
-            const types     = data.map(d => (d[COL_TYPE] || '').trim() || 'Chưa phân loại');
-            const locations = data.map(d => parseWard(d[COL_ADDRESS]));
-
+        function renderAnSinhDashboard(data){
+            const COL_NAME = 'Họ và tên';
+            const COL_PHONE = 'Số điện thọai';
+            const COL_ADDRESS = 'Địa chỉ cũ trước sáp nhập (ghi rõ "Tổ...., phường cũ" dùng dấu phẩy để phân cách. Ví dụ: Tổ 1, phường Tân Thịnh cũ)';
+            const COL_TYPE = 'đối tượng';
+            const COL_COMP = 'hoàn cảnh';
+            const COL_IMAGE = 'ảnh';
+            const COL_SUPPORT_STATUS = 'tình trạng hỗ trợ';
+            const COL_SPONSOR = 'thông tin nhà hảo tâm';
+            const COL_SUPPORT_FORM = 'đối tượng hoặc hình thức hỗ trợ';
+            const COL_DATE = 'Dấu thời gian';
+            const rows = data.filter(row => normalizeText(row[COL_NAME]) || normalizeText(row[COL_COMP]) || normalizeText(row[COL_TYPE]) || normalizeText(row[COL_SPONSOR]));
+            document.getElementById('as-stat-total').innerText = rows.length;
+            const types = rows.map(d => normalizeText(d[COL_TYPE]) || 'Chưa phân loại');
+            const locations = rows.map(d => parseWard(d[COL_ADDRESS]));
+            const toGroups = rows.map(d => parseTo(d[COL_ADDRESS]));
             document.getElementById('as-stat-top-type').innerText = getTop(types);
             document.getElementById('as-stat-top-loc').innerText = getTop(locations);
-
+            document.getElementById('as-stat-top-to').innerText = getTop(toGroups);
             const typeMap = count(types);
-            const locMap  = count(locations);
-
-            if (myAsPie) myAsPie.destroy();
+            const locMap = count(locations);
+            const top10To = Object.entries(count(toGroups)).sort((a,b)=>b[1]-a[1]).slice(0,10);
+            if(myAsPie) myAsPie.destroy();
             const asPieCanvas = document.getElementById('asPieChart');
-            if (asPieCanvas) {
-                myAsPie = new Chart(asPieCanvas, {
-                    type: 'doughnut',
-                    data: {
-                        labels: Object.keys(typeMap),
-                        datasets: [{
-                            data: Object.values(typeMap),
-                            backgroundColor: ['#14b8a6', '#f97316', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'],
-                            hoverOffset: 20
-                        }]
-                    },
-                    options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, font: { size: 10, weight: 'bold' } } } } }
-                });
-            }
-
-            if (myAsBar) myAsBar.destroy();
+            if(asPieCanvas){ myAsPie = new Chart(asPieCanvas,{ type:'doughnut', data:{ labels:Object.keys(typeMap), datasets:[{ data:Object.values(typeMap), backgroundColor:['#14b8a6','#f97316','#10b981','#f59e0b','#8b5cf6','#ec4899','#0ea5e9'], hoverOffset:20 }] }, options:{ maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ usePointStyle:true, font:{ size:10, weight:'bold' } } } } } }); }
+            if(myAsBar) myAsBar.destroy();
             const asBarCanvas = document.getElementById('asBarChart');
-            if (asBarCanvas) {
-                myAsBar = new Chart(asBarCanvas, {
-                    type: 'bar',
-                    data: {
-                        labels: Object.keys(locMap),
-                        datasets: [{
-                            label: 'Số hồ sơ',
-                            data: Object.values(locMap),
-                            backgroundColor: '#14b8a6',
-                            borderRadius: 8
-                        }]
-                    },
-                    options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { display: false } } } }
-                });
-            }
-
-            const tb = document.getElementById('tbody-ansinh');
-            tb.innerHTML = '';
-
-            if (data.length === 0) {
-                tb.innerHTML = '<tr><td colspan="10" class="text-center text-slate-400 py-8">Chưa có dữ liệu An Sinh – Xã Hội Số</td></tr>';
-                return;
-            }
-
-            data.forEach((row, i) => {
-                const ward = parseWard(row[COL_ADDRESS]);
-                const col = (key) => (row[key] || '').trim();
-
+            if(asBarCanvas){ myAsBar = new Chart(asBarCanvas,{ type:'bar', data:{ labels:Object.keys(locMap), datasets:[{ label:'Số hồ sơ', data:Object.values(locMap), backgroundColor:'#14b8a6', borderRadius:8 }] }, options:{ maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, grid:{ display:false } } }, plugins:{ legend:{ display:false } } } }); }
+            if(myTopTo) myTopTo.destroy();
+            const topToCanvas = document.getElementById('asTopToChart');
+            if(topToCanvas){ myTopTo = new Chart(topToCanvas,{ type:'bar', data:{ labels: top10To.map(([l])=>l), datasets:[{ label:'Số hồ sơ', data: top10To.map(([,v])=>v), backgroundColor:'#6366f1', borderRadius:8 }] }, options:{ indexAxis:'y', maintainAspectRatio:false, scales:{ x:{ beginAtZero:true, grid:{ display:false } }, y:{ grid:{ display:false } } }, plugins:{ legend:{ display:false } } } }); }
+            const tb = document.getElementById('tbody-ansinh'); tb.innerHTML = '';
+            if(rows.length === 0){ tb.innerHTML = '<tr><td colspan="12" class="text-center text-slate-400 py-8">Chưa có dữ liệu An Sinh – Xã Hội Số</td></tr>'; return; }
+            rows.forEach((row, i) => {
+                const area = parseWard(row[COL_ADDRESS]);
+                const to = parseTo(row[COL_ADDRESS]);
+                const col = key => normalizeText(row[key]);
                 tb.innerHTML += `
                     <tr>
                         <td class="text-center font-bold text-slate-400">${i+1}</td>
-                        ${currentRole === 'admin' ? `
-                        <td>
-                            <div class="font-bold text-slate-800">${col('Họ và tên')}</div>
-                            <div class="text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-location-dot mr-1"></i>${ward}</div>
-                        </td>` : ''}
-                        <td class="text-sm text-slate-600 leading-relaxed italic">"${col('Vui lòng cho biết ý kiến')}"</td>
-                        <td class="text-sm text-slate-700">${col(COL_HTRO)}</td>
-                        <td><span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-[10px] font-bold uppercase border border-teal-200">${col(COL_TYPE)}</span></td>
-                        <td class="text-xs text-slate-600">${col(COL_CAP_TN) || 'Đã tiếp nhận'}</td>
-                        <td>${renderAnSinhImageCell(col(COL_11))}</td>
-                        ${currentRole === 'admin' ? `
-                        <td class="text-xs text-slate-600">${col('Cột 12')}</td>
-                        <td class="text-xs text-slate-600">${col('Cột 13')}</td>
-                        <td class="text-xs text-slate-600">${col('Cột 14')}</td>` : ''}
-                    </tr>
-                `;
+                        <td class="text-xs text-slate-600">${escapeHtml(col(COL_DATE) || '-')}</td>
+                        <td><div class="font-bold text-slate-800">${escapeHtml(col(COL_NAME) || '-')}</div><div class="text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-location-dot mr-1"></i>${escapeHtml(to)} • ${escapeHtml(area)}</div></td>
+                        <td class="text-xs text-slate-600">${escapeHtml(col(COL_PHONE) || '-')}</td>
+                        <td class="text-sm text-slate-600">${escapeHtml(col(COL_ADDRESS) || '-')}</td>
+                        <td><span class="px-2 py-1 bg-slate-50 text-slate-700 rounded text-[10px] font-bold uppercase border border-slate-200">${escapeHtml(to)}</span></td>
+                        <td><span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-[10px] font-bold uppercase border border-teal-200">${escapeHtml(col(COL_TYPE) || 'Chưa phân loại')}</span></td>
+                        <td class="text-sm text-slate-600 leading-relaxed">${col(COL_COMP) ? escapeHtml(col(COL_COMP)) : '<span class="text-slate-400 italic">Không có mô tả</span>'}</td>
+                        <td>${renderAnSinhImageCell(col(COL_IMAGE))}</td>
+                        <td class="text-xs text-slate-600">${escapeHtml(col(COL_SUPPORT_STATUS) || 'Đã tiếp nhận')}</td>
+                        <td class="text-xs text-slate-600">${escapeHtml(col(COL_SPONSOR) || '-')}</td>
+                        <td class="text-xs text-slate-600">${escapeHtml(col(COL_SUPPORT_FORM) || '-')}</td>
+                    </tr>`;
             });
         }
-
-        function parseWard(s) {
-            if (!s) return 'N/A';
-            const val = s.toLowerCase();
-            if (val.includes('phương lâm')) return 'Phương Lâm';
-            if (val.includes('thịnh lang')) return 'Thịnh Lang';
-            if (val.includes('đồng tiến')) return 'Đồng Tiến';
-            if (val.includes('tân thịnh')) return 'Tân Thịnh';
-            if (val.includes('hữu nghị')) return 'Hữu Nghị';
-            return 'Địa bàn khác';
-        }
-
-        function count(arr) {
-            return arr.reduce((acc, c) => { acc[c] = (acc[c] || 0) + 1; return acc; }, {});
-        }
-
-        function getTop(arr) {
-            const c = count(arr);
-            return Object.keys(c).reduce((a, b) => c[a] > c[b] ? a : b, '-');
-        }
-
         tryAutoLogin();
     </script>
 </body>
