@@ -5,16 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>An Sinh – Xã Hội Số - MTTQ Hòa Bình</title>
     
-    <!-- Frameworks & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-
     <style>
         :root { --primary: #da251d; --secondary: #1e293b; }
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
@@ -28,174 +24,36 @@
         .table-modern td { vertical-align: middle; padding: 1rem 0.75rem; border-color: #f1f5f9; }
         .hidden-by-role { display: none !important; }
         .image-preview { max-width: 140px; max-height: 140px; object-fit: cover; border-radius: 0.75rem; border: 1px solid #cbd5e1; }
-        @media (max-width: 768px) {
-            .header-title { font-size: 1.1rem !important; }
-            .stat-grid { grid-template-columns: 1fr; }
-            .chart-container { height: 300px !important; }
-        }
+        @media (max-width: 768px) { .header-title { font-size: 1.1rem !important; } .stat-grid { grid-template-columns: 1fr; } .chart-container { height: 300px !important; } }
     </style>
 </head>
 <body>
     <div id="login-screen" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-slate-100 px-4">
         <div class="w-full max-w-md glass-card p-8 shadow-2xl">
             <div class="text-center mb-6">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-600 text-white text-2xl shadow-lg mb-4">
-                    <i class="fa-solid fa-user-lock"></i>
-                </div>
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-600 text-white text-2xl shadow-lg mb-4"><i class="fa-solid fa-user-lock"></i></div>
                 <h1 class="text-2xl font-extrabold text-slate-800">Đăng nhập hệ thống</h1>
                 <p class="text-sm text-slate-500 mt-2">Demo tài khoản truy cập dashboard MTTQ</p>
             </div>
-
             <form id="login-form" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Tên đăng nhập</label>
-                    <input id="username" type="text" class="form-control rounded-xl py-3" placeholder="Nhập username" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">Mật khẩu</label>
-                    <input id="password" type="password" class="form-control rounded-xl py-3" placeholder="Nhập password" required>
-                </div>
+                <div><label class="block text-sm font-semibold text-slate-700 mb-2">Tên đăng nhập</label><input id="username" type="text" class="form-control rounded-xl py-3" placeholder="Nhập username" required></div>
+                <div><label class="block text-sm font-semibold text-slate-700 mb-2">Mật khẩu</label><input id="password" type="password" class="form-control rounded-xl py-3" placeholder="Nhập password" required></div>
                 <div id="login-error" class="hidden text-sm text-red-600 font-semibold bg-red-50 border border-red-200 rounded-xl px-3 py-2"></div>
-                <button type="submit" class="w-full py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition">
-                    <i class="fa-solid fa-right-to-bracket mr-2"></i>Đăng nhập
-                </button>
+                <button type="submit" class="w-full py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition"><i class="fa-solid fa-right-to-bracket mr-2"></i>Đăng nhập</button>
             </form>
         </div>
     </div>
-
     <div id="app-shell" class="hidden">
-        <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-            <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="bg-red-600 p-2 rounded-xl shadow-lg"><i class="fa-solid fa-star text-white text-xl"></i></div>
-                    <div>
-                        <h2 class="text-[10px] font-bold text-red-600 uppercase tracking-[0.2em] leading-tight">Ủy ban MTTQ Việt Nam</h2>
-                        <h1 class="header-title text-xl font-extrabold text-slate-800 tracking-tight leading-tight">PHƯỜNG HÒA BÌNH</h1>
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="hidden md:flex items-center gap-4">
-                        <div id="sync-status" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold">
-                            <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
-                            DỮ LIỆU TRỰC TUYẾN
-                        </div>
-                    </div>
-                    <div class="text-end">
-                        <div class="text-xs text-slate-500">Đang đăng nhập</div>
-                        <div id="current-user-label" class="text-sm font-bold text-slate-800">-</div>
-                    </div>
-                    <button id="logout-btn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-sm font-bold transition">
-                        <i class="fa-solid fa-right-from-bracket mr-2"></i>Đăng xuất
-                    </button>
-                </div>
-            </div>
-        </nav>
-
-        <div class="bg-white border-b border-slate-200">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex gap-1 py-2">
-                    <a href="index.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 transition">
-                        <i class="fa-solid fa-comments"></i>Ý kiến nhân dân
-                    </a>
-                    <a href="ansinh.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-teal-600 text-white shadow-sm">
-                        <i class="fa-solid fa-hand-holding-heart"></i>An sinh xã hội số
-                    </a>
-                </div>
-            </div>
-        </div>
-
+        <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200"><div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between"><div class="flex items-center gap-3"><div class="bg-red-600 p-2 rounded-xl shadow-lg"><i class="fa-solid fa-star text-white text-xl"></i></div><div><h2 class="text-[10px] font-bold text-red-600 uppercase tracking-[0.2em] leading-tight">Ủy ban MTTQ Việt Nam</h2><h1 class="header-title text-xl font-extrabold text-slate-800 tracking-tight leading-tight">PHƯỜNG HÒA BÌNH</h1></div></div><div class="flex items-center gap-3"><div class="hidden md:flex items-center gap-4"><div id="sync-status" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>DỮ LIỆU TRỰC TUYẾN</div></div><div class="text-end"><div class="text-xs text-slate-500">Đang đăng nhập</div><div id="current-user-label" class="text-sm font-bold text-slate-800">-</div></div><button id="logout-btn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-sm font-bold transition"><i class="fa-solid fa-right-from-bracket mr-2"></i>Đăng xuất</button></div></div></nav>
+        <div class="bg-white border-b border-slate-200"><div class="max-w-7xl mx-auto px-4"><div class="flex gap-1 py-2"><a href="index.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 transition"><i class="fa-solid fa-comments"></i>Ý kiến nhân dân</a><a href="ansinh.html" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-teal-600 text-white shadow-sm"><i class="fa-solid fa-hand-holding-heart"></i>An sinh xã hội số</a></div></div></div>
         <main class="max-w-7xl mx-auto px-4 py-8">
-            <div id="cors-notice" class="hidden mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex flex-col md:flex-row items-center gap-4">
-                <div class="bg-amber-100 p-3 rounded-full text-amber-600"><i class="fa-solid fa-triangle-exclamation text-xl"></i></div>
-                <div class="flex-1">
-                    <h4 class="text-amber-800 font-bold text-sm">Lưu ý: Bạn đang chạy file từ máy tính cá nhân</h4>
-                    <p class="text-amber-700 text-xs">Để hiển thị dữ liệu, hãy tải file CSV từ Google Sheets và chọn vào nút bên cạnh.</p>
-                </div>
-                <input type="file" id="manualUpload" accept=".csv" class="hidden">
-                <button onclick="document.getElementById('manualUpload').click()" class="w-full md:w-auto px-6 py-2.5 bg-amber-600 text-white text-xs font-bold rounded-xl hover:bg-amber-700 transition">
-                    <i class="fa-solid fa-file-csv mr-2"></i>CHỌN FILE CSV
-                </button>
-            </div>
-
-            <div class="flex items-center gap-4 mb-8">
-                <div class="flex-1 border-t-2 border-dashed border-teal-300"></div>
-                <div class="flex items-center gap-3 px-6 py-3 bg-teal-600 text-white rounded-2xl shadow-lg">
-                    <i class="fa-solid fa-hand-holding-heart text-xl"></i>
-                    <span class="font-extrabold text-base uppercase tracking-wide">An Sinh – Xã Hội Số</span>
-                </div>
-                <div class="flex-1 border-t-2 border-dashed border-teal-300"></div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                <div class="glass-card stat-card p-5 border-l-4 border-teal-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Tổng hồ sơ</p>
-                            <h3 id="as-stat-total" class="text-3xl font-black mt-1">0</h3>
-                        </div>
-                        <div class="bg-teal-50 p-3 rounded-xl text-teal-500"><i class="fa-solid fa-hand-holding-heart text-xl"></i></div>
-                    </div>
-                    <div class="mt-4 flex items-center text-xs text-teal-600 font-semibold"><i class="fa-solid fa-arrow-up-right-dots mr-1"></i> An sinh – xã hội số</div>
-                </div>
-                <div class="glass-card stat-card p-5 border-l-4 border-orange-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Đối tượng đề nghị hỗ trợ</p>
-                            <h3 id="as-stat-top-type" class="text-base font-extrabold mt-2 leading-tight">-</h3>
-                        </div>
-                        <div class="bg-orange-50 p-3 rounded-xl text-orange-500"><i class="fa-solid fa-users text-xl"></i></div>
-                    </div>
-                </div>
-                <div class="glass-card stat-card p-5 border-l-4 border-emerald-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Địa bàn đăng ký nhiều nhất</p>
-                            <h3 id="as-stat-top-loc" class="text-base font-extrabold mt-2 leading-tight">-</h3>
-                        </div>
-                        <div class="bg-emerald-50 p-3 rounded-xl text-emerald-500"><i class="fa-solid fa-map-location-dot text-xl"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-                <div class="glass-card p-6">
-                    <div class="flex items-center justify-between mb-6"><h5 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-chart-pie text-teal-600"></i> PHÂN LOẠI ĐỐI TƯỢNG</h5></div>
-                    <div class="chart-container h-[350px] relative"><canvas id="asPieChart"></canvas></div>
-                </div>
-                <div class="glass-card p-6">
-                    <div class="flex items-center justify-between mb-6"><h5 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-chart-simple text-teal-600"></i> HỒ SƠ THEO ĐỊA BÀN</h5></div>
-                    <div class="chart-container h-[350px] relative"><canvas id="asBarChart"></canvas></div>
-                </div>
-            </div>
-
-            <div class="glass-card overflow-hidden">
-                <div class="bg-teal-50 p-4 border-b border-teal-200 flex items-center gap-2">
-                    <i class="fa-solid fa-table-list text-teal-600"></i>
-                    <span class="font-bold text-teal-800 uppercase text-sm tracking-wide">Chi tiết hồ sơ An Sinh – Xã Hội Số</span>
-                </div>
-                <div class="table-responsive max-h-[600px]">
-                    <table class="table table-modern table-hover mb-0">
-                        <thead>
-                            <tr>
-                                <th class="text-center px-4">STT</th>
-                                <th class="role-admin-only">Người đăng ký</th>
-                                <th style="min-width: 220px;">Hoàn cảnh</th>
-                                <th style="min-width: 220px;">Đối tượng / hình thức hỗ trợ</th>
-                                <th>Đối tượng</th>
-                                <th>Cấp tiếp nhận ý kiến</th>
-                                <th>Ảnh</th>
-                                <th class="role-admin-only">Tình trạng hỗ trợ</th>
-                                <th class="role-admin-only">Thông tin nhà hảo tâm</th>
-                                <th class="role-admin-only">Số điện thoại</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-ansinh"></tbody>
-                    </table>
-                </div>
-            </div>
+            <div id="cors-notice" class="hidden mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex flex-col md:flex-row items-center gap-4"><div class="bg-amber-100 p-3 rounded-full text-amber-600"><i class="fa-solid fa-triangle-exclamation text-xl"></i></div><div class="flex-1"><h4 class="text-amber-800 font-bold text-sm">Lưu ý: Bạn đang chạy file từ máy tính cá nhân</h4><p class="text-amber-700 text-xs">Để hiển thị dữ liệu, hãy tải file CSV từ Google Sheets và chọn vào nút bên cạnh.</p></div><input type="file" id="manualUpload" accept=".csv" class="hidden"><button onclick="document.getElementById('manualUpload').click()" class="w-full md:w-auto px-6 py-2.5 bg-amber-600 text-white text-xs font-bold rounded-xl hover:bg-amber-700 transition"><i class="fa-solid fa-file-csv mr-2"></i>CHỌN FILE CSV</button></div>
+            <div class="flex items-center gap-4 mb-8"><div class="flex-1 border-t-2 border-dashed border-teal-300"></div><div class="flex items-center gap-3 px-6 py-3 bg-teal-600 text-white rounded-2xl shadow-lg"><i class="fa-solid fa-hand-holding-heart text-xl"></i><span class="font-extrabold text-base uppercase tracking-wide">An Sinh – Xã Hội Số</span></div><div class="flex-1 border-t-2 border-dashed border-teal-300"></div></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"><div class="glass-card stat-card p-5 border-l-4 border-teal-500"><div class="flex justify-between items-start"><div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Tổng hồ sơ</p><h3 id="as-stat-total" class="text-3xl font-black mt-1">0</h3></div><div class="bg-teal-50 p-3 rounded-xl text-teal-500"><i class="fa-solid fa-hand-holding-heart text-xl"></i></div></div><div class="mt-4 flex items-center text-xs text-teal-600 font-semibold"><i class="fa-solid fa-arrow-up-right-dots mr-1"></i> An sinh – xã hội số</div></div><div class="glass-card stat-card p-5 border-l-4 border-orange-500"><div class="flex justify-between items-start"><div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Đối tượng đề nghị hỗ trợ</p><h3 id="as-stat-top-type" class="text-base font-extrabold mt-2 leading-tight">-</h3></div><div class="bg-orange-50 p-3 rounded-xl text-orange-500"><i class="fa-solid fa-users text-xl"></i></div></div></div><div class="glass-card stat-card p-5 border-l-4 border-emerald-500"><div class="flex justify-between items-start"><div><p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Địa bàn đăng ký nhiều nhất</p><h3 id="as-stat-top-loc" class="text-base font-extrabold mt-2 leading-tight">-</h3></div><div class="bg-emerald-50 p-3 rounded-xl text-emerald-500"><i class="fa-solid fa-map-location-dot text-xl"></i></div></div></div></div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10"><div class="glass-card p-6"><div class="flex items-center justify-between mb-6"><h5 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-chart-pie text-teal-600"></i> PHÂN LOẠI ĐỐI TƯỢNG</h5></div><div class="chart-container h-[350px] relative"><canvas id="asPieChart"></canvas></div></div><div class="glass-card p-6"><div class="flex items-center justify-between mb-6"><h5 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-chart-simple text-teal-600"></i> HỒ SƠ THEO ĐỊA BÀN</h5></div><div class="chart-container h-[350px] relative"><canvas id="asBarChart"></canvas></div></div></div>
+            <div class="glass-card overflow-hidden"><div class="bg-teal-50 p-4 border-b border-teal-200 flex items-center gap-2"><i class="fa-solid fa-table-list text-teal-600"></i><span class="font-bold text-teal-800 uppercase text-sm tracking-wide">Chi tiết hồ sơ An Sinh – Xã Hội Số</span></div><div class="table-responsive max-h-[600px]"><table class="table table-modern table-hover mb-0"><thead><tr><th class="text-center px-4">STT</th><th class="role-admin-only">Người đăng ký</th><th style="min-width: 220px;">Hoàn cảnh</th><th style="min-width: 220px;">Đối tượng / hình thức hỗ trợ</th><th>Đối tượng</th><th>Cấp tiếp nhận ý kiến</th><th>Ảnh</th><th class="role-admin-only">Tình trạng hỗ trợ</th><th class="role-admin-only">Thông tin nhà hảo tâm</th><th class="role-admin-only">Số điện thoại</th></tr></thead><tbody id="tbody-ansinh"></tbody></table></div></div>
         </main>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSU86YoFJJStMuK3fMaO5MFjMmMhfDO6vJ7qPzVlp4-InE6tlDTaiVEzwvvbf-iE0hbzfyG5kF1TyO3/pub?gid=55958444&single=true&output=csv';
@@ -203,19 +61,8 @@
         const STORAGE_KEY = 'mttq_demo_auth';
         let myAsPie, myAsBar;
         let currentRole = null;
-
         function normalizeText(s) { return (s || '').toString().trim(); }
-        function parseAddressParts(address) {
-            const raw = normalizeText(address);
-            if (!raw) return { to: 'N/A', phuong: 'N/A', wardLabel: 'N/A' };
-            const normalized = raw.replace(/\s+/g, ' ');
-            const parts = normalized.split(',').map(p => p.trim()).filter(Boolean);
-            const toPart = parts.find(p => /\bTổ\b/i.test(p)) || parts[0] || 'N/A';
-            const phuongPart = parts.find(p => /phường|xã|thị trấn/i.test(p)) || parts[1] || 'N/A';
-            const wardMatch = phuongPart.match(/phường\s+(.+?)(?:\s+cũ|$)/i) || phuongPart.match(/xã\s+(.+?)(?:\s+cũ|$)/i) || phuongPart.match(/thị trấn\s+(.+?)(?:\s+cũ|$)/i);
-            const wardName = wardMatch ? wardMatch[1].trim() : phuongPart.replace(/\s+cũ$/i, '').trim();
-            return { to: toPart, phuong: phuongPart, wardLabel: wardName || phuongPart || 'N/A' };
-        }
+        function parseAddressParts(address) { const raw = normalizeText(address); if (!raw) return { to: 'N/A', phuong: 'N/A', wardLabel: 'N/A' }; const normalized = raw.replace(/\s+/g, ' '); const parts = normalized.split(',').map(p => p.trim()).filter(Boolean); const toPart = parts.find(p => /\bTổ\b/i.test(p)) || parts[0] || 'N/A'; const phuongPart = parts.find(p => /phường|xã|thị trấn/i.test(p)) || parts[1] || 'N/A'; const wardMatch = phuongPart.match(/phường\s+(.+?)(?:\s+cũ|$)/i) || phuongPart.match(/xã\s+(.+?)(?:\s+cũ|$)/i) || phuongPart.match(/thị trấn\s+(.+?)(?:\s+cũ|$)/i); const wardName = wardMatch ? wardMatch[1].trim() : phuongPart.replace(/\s+cũ$/i, '').trim(); return { to: toPart, phuong: phuongPart, wardLabel: wardName || phuongPart || 'N/A' }; }
         function getAddressLabel(address) { const { to, wardLabel } = parseAddressParts(address); if (to === 'N/A' && wardLabel === 'N/A') return 'N/A'; return `${to} - ${wardLabel}`; }
         function isAnSinh(row) { return [row['Cột 5'], row['đối tượng'], row['đối tượng ']].some(v => normalizeText(v).toUpperCase().includes('AN SINH')); }
         function setRoleUI(role) { currentRole = role; const isAdmin = role === 'admin'; document.querySelectorAll('.role-admin-only').forEach(el => el.classList.toggle('hidden-by-role', !isAdmin)); document.getElementById('current-user-label').innerText = isAdmin ? 'Admin' : 'Demo'; }
@@ -238,7 +85,6 @@
             const COL_TINH_TRANG = 'tình trạng hỗ trợ';
             const COL_NHA_HAO_TAM = 'thông tin nhà hảo tâm';
             const COL_HINH_THUC = 'đối tượng hoặc hình thức hỗ trợ';
-
             document.getElementById('as-stat-total').innerText = data.length;
             const types = data.map(d => normalizeText(d[COL_TYPE]) || 'Chưa phân loại');
             const locations = data.map(d => getAddressLabel(d[COL_ADDRESS]));
@@ -254,22 +100,7 @@
             if (asBarCanvas) myAsBar = new Chart(asBarCanvas, { type: 'bar', data: { labels: Object.keys(locMap), datasets: [{ label: 'Số hồ sơ', data: Object.values(locMap), backgroundColor: '#14b8a6', borderRadius: 8 }] }, options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { display: false } } } } });
             const tb = document.getElementById('tbody-ansinh'); tb.innerHTML = '';
             if (data.length === 0) { tb.innerHTML = '<tr><td colspan="10" class="text-center text-slate-400 py-8">Chưa có dữ liệu An Sinh – Xã Hội Số</td></tr>'; return; }
-            data.forEach((row, i) => {
-                const address = normalizeText(row[COL_ADDRESS]);
-                const { to, phuong, wardLabel } = parseAddressParts(address);
-                const col = (key) => normalizeText(row[key]);
-                tb.innerHTML += `
-                    <tr>
-                        <td class="text-center font-bold text-slate-400">${i+1}</td>
-                        ${currentRole === 'admin' ? `<td><div class="font-bold text-slate-800">${col('Họ và tên')}</div><div class="text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-location-dot mr-1"></i>${to}${phuong !== 'N/A' ? `, ${phuong}` : ''}</div></td>` : ''}
-                        <td class="text-sm text-slate-600 leading-relaxed italic">"${col(COL_HOAN_CANH)}"</td>
-                        <td class="text-sm text-slate-700">${col(COL_HINH_THUC) || 'Đã tiếp nhận'}</td>
-                        <td><span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-[10px] font-bold uppercase border border-teal-200">${col(COL_TYPE)}</span></td>
-                        <td class="text-xs text-slate-600">${wardLabel}</td>
-                        <td>${renderAnSinhImageCell(col(COL_ANH))}</td>
-                        ${currentRole === 'admin' ? `<td class="text-xs text-slate-600">${col(COL_TINH_TRANG)}</td><td class="text-xs text-slate-600">${col(COL_NHA_HAO_TAM)}</td><td class="text-xs text-slate-600">${col('Số điện thọai')}</td>` : ''}
-                    </tr>`;
-            });
+            data.forEach((row, i) => { const address = normalizeText(row[COL_ADDRESS]); const { to, phuong, wardLabel } = parseAddressParts(address); const col = (key) => normalizeText(row[key]); tb.innerHTML += `<tr><td class="text-center font-bold text-slate-400">${i+1}</td>${currentRole === 'admin' ? `<td><div class="font-bold text-slate-800">${col('Họ và tên')}</div><div class="text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-location-dot mr-1"></i>${to}${phuong !== 'N/A' ? `, ${phuong}` : ''}</div></td>` : ''}<td class="text-sm text-slate-600 leading-relaxed italic">"${col(COL_HOAN_CANH)}"</td><td class="text-sm text-slate-700">${col(COL_HINH_THUC) || 'Đã tiếp nhận'}</td><td><span class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-[10px] font-bold uppercase border border-teal-200">${col(COL_TYPE)}</span></td><td class="text-xs text-slate-600">${wardLabel}</td><td>${renderAnSinhImageCell(col(COL_ANH))}</td>${currentRole === 'admin' ? `<td class="text-xs text-slate-600">${col(COL_TINH_TRANG)}</td><td class="text-xs text-slate-600">${col(COL_NHA_HAO_TAM)}</td><td class="text-xs text-slate-600">${col('Số điện thọai')}</td>` : ''}</tr>`; });
         }
         tryAutoLogin();
     </script>
