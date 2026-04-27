@@ -128,7 +128,7 @@
                 <div class="flex-1 border-t-2 border-dashed border-teal-300"></div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 <div class="glass-card stat-card p-5 border-l-4 border-teal-500">
                     <div class="flex justify-between items-start">
                         <div>
@@ -159,6 +159,15 @@
                         <div class="bg-emerald-50 p-3 rounded-xl text-emerald-500"><i class="fa-solid fa-map-location-dot text-xl"></i></div>
                     </div>
                 </div>
+                <div class="glass-card stat-card p-5 border-l-4 border-indigo-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Tổ cần an sinh nhiều nhất</p>
+                            <h3 id="as-stat-top-to" class="text-base font-extrabold mt-2 leading-tight">-</h3>
+                        </div>
+                        <div class="bg-indigo-50 p-3 rounded-xl text-indigo-500"><i class="fa-solid fa-people-roof text-xl"></i></div>
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
@@ -169,6 +178,15 @@
                 <div class="glass-card p-6 xl:col-span-2">
                     <div class="flex items-center justify-between mb-6"><h5 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-chart-simple text-teal-600"></i> HỒ SƠ THEO KHU VỰC</h5></div>
                     <div class="chart-container h-[350px] relative"><canvas id="asBarChart"></canvas></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-10">
+                <div class="glass-card p-6 xl:col-span-3">
+                    <div class="flex items-center justify-between mb-6">
+                        <h5 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-ranking-star text-indigo-600"></i> TOP 10 TỔ CẦN AN SINH NHIỀU NHẤT</h5>
+                    </div>
+                    <div class="chart-container h-[380px] relative"><canvas id="asTopToChart"></canvas></div>
                 </div>
             </div>
 
@@ -211,7 +229,7 @@
         };
         const STORAGE_KEY = 'mttq_demo_auth';
 
-        let myAsPie, myAsBar;
+        let myAsPie, myAsBar, myTopTo;
         let currentRole = null;
 
         function setRoleUI(role) {
@@ -323,11 +341,16 @@
 
             const types = rows.map(d => normalizeText(d[COL_TYPE]) || 'Chưa phân loại');
             const locations = rows.map(d => parseArea(d[COL_ADDRESS]));
+            const toGroups = rows.map(d => parseTo(d[COL_ADDRESS]));
+
             document.getElementById('as-stat-top-type').innerText = getTop(types);
             document.getElementById('as-stat-top-loc').innerText = getTop(locations);
+            document.getElementById('as-stat-top-to').innerText = getTop(toGroups);
 
             const typeMap = count(types);
             const locMap = count(locations);
+            const topToMap = count(toGroups);
+            const top10To = Object.entries(topToMap).sort((a, b) => b[1] - a[1]).slice(0, 10);
 
             if (myAsPie) myAsPie.destroy();
             const asPieCanvas = document.getElementById('asPieChart');
@@ -354,6 +377,32 @@
                     options: {
                         maintainAspectRatio: false,
                         scales: { y: { beginAtZero: true, grid: { display: false } } },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+
+            if (myTopTo) myTopTo.destroy();
+            const topToCanvas = document.getElementById('asTopToChart');
+            if (topToCanvas) {
+                myTopTo = new Chart(topToCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: top10To.map(([label]) => label),
+                        datasets: [{
+                            label: 'Số hồ sơ',
+                            data: top10To.map(([, value]) => value),
+                            backgroundColor: '#6366f1',
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { beginAtZero: true, grid: { display: false } },
+                            y: { grid: { display: false } }
+                        },
                         plugins: { legend: { display: false } }
                     }
                 });
@@ -405,6 +454,14 @@
             }
             const m = value.match(/tổ\s*\d+/i);
             return m ? normalizeText(m[0]).replace(/\s+/g, ' ') : 'Khu vực khác';
+        }
+
+        function parseTo(s) {
+            const value = normalizeText(s).toLowerCase();
+            if (!value) return 'Chưa xác định';
+            const m = value.match(/tổ\s*\d+/i);
+            if (!m) return 'Chưa xác định';
+            return normalizeText(m[0]).toUpperCase().replace(/\s+/g, ' ');
         }
 
         function normalizeText(v) {
